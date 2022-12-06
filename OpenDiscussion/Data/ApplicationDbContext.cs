@@ -12,5 +12,6 @@ namespace OpenDiscussion.Data
 
         }
         public DbSet <Comment> Comments { get; set; }
+        public DbSet <Category> Categories { get; set; }
     }
 }
