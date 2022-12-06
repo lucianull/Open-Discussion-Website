@@ -19,5 +19,6 @@ namespace OpenDiscussion.Controllers
             ViewBag.Categories = categories;
             return View();
         }
+        //da
     }
 }
