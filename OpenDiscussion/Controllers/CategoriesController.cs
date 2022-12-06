@@ -5,6 +5,7 @@ using OpenDiscussion.Models;
 
 namespace OpenDiscussion.Controllers
 {
+    //ok
     public class CategoriesController : Controller
     {
         private readonly ApplicationDbContext db;
