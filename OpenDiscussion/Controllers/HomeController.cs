@@ -15,6 +15,7 @@ namespace OpenDiscussion.Controllers
 
         public IActionResult Index()
         {
+
             return View();
         }
 
