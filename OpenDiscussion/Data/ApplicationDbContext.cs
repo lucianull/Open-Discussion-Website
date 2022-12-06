@@ -1,5 +1,6 @@
 ﻿using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
+using OpenDiscussion.Models;
 
 namespace OpenDiscussion.Data
 {
@@ -8,7 +9,8 @@ namespace OpenDiscussion.Data
         public ApplicationDbContext(DbContextOptions<ApplicationDbContext> options)
             : base(options)
         {
-            //dudu suge pula
+
         }
+        public DbSet <Comment> Comments { get; set; }
     }
 }
