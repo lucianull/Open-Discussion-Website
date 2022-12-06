@@ -9,7 +9,7 @@ namespace OpenDiscussion.Data
         public ApplicationDbContext(DbContextOptions<ApplicationDbContext> options)
             : base(options)
         {
-
+            //ceva
         }
         public DbSet <Comment> Comments { get; set; }
         public DbSet <Category> Categories { get; set; }
