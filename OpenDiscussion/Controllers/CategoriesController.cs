@@ -30,6 +30,7 @@ namespace OpenDiscussion.Controllers
         {
             Category category = db.Categories.Find(id);
             category.Name = requestCategory.Name;
+            category.Description = requestCategory.Description;
             db.SaveChanges();
             return RedirectToAction("Index");
         }
@@ -53,5 +54,6 @@ namespace OpenDiscussion.Controllers
             db.SaveChanges();
             return RedirectToAction("Index");
         }
+        
     }
 }
