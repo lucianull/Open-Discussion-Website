@@ -5,7 +5,7 @@ using OpenDiscussion.Models;
 
 namespace OpenDiscussion.Controllers
 {
-    //ok
+
     public class CategoriesController : Controller
     {
         private readonly ApplicationDbContext db;
@@ -20,6 +20,18 @@ namespace OpenDiscussion.Controllers
             ViewBag.Categories = categories;
             return View();
         }
-        //da
+
+        public IActionResult New()
+        {
+            return View();
+        }
+
+        [HttpPost] 
+        public IActionResult New(Category cat)
+        {
+            db.Categories.Add(cat);
+            db.SaveChanges();
+        }
+
     }
 }

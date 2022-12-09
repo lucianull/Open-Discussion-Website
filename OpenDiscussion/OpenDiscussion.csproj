@@ -8,6 +8,15 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <Compile Remove="Data\Migrations\20221206173727_v1.cs" />
+    <Compile Remove="Data\Migrations\20221206173727_v1.Designer.cs" />
+    <Compile Remove="Data\Migrations\20221209114124_opendisc1.cs" />
+    <Compile Remove="Data\Migrations\20221209114124_opendisc1.Designer.cs" />
+    <Compile Remove="Data\Migrations\20221209114509_opendisc2.cs" />
+    <Compile Remove="Data\Migrations\20221209114509_opendisc2.Designer.cs" />
+  </ItemGroup>
+
+  <ItemGroup>
     <PackageReference Include="Microsoft.AspNetCore.Diagnostics.EntityFrameworkCore" Version="6.0.10" />
     <PackageReference Include="Microsoft.AspNetCore.Identity.EntityFrameworkCore" Version="6.0.10" />
     <PackageReference Include="Microsoft.AspNetCore.Identity.UI" Version="6.0.10" />
