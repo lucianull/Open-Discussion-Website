@@ -11,6 +11,6 @@ namespace OpenDiscussion.Models
 
         public string Description { get; set; }
 
-        public virtual ICollection<Topic> Topics { get; set; }
+        public virtual ICollection<Topic>? Topics { get; set; }
     }
 }

@@ -1,0 +1,26 @@
+﻿@model OpenDiscussion.Models.Topic
+
+@{
+}
+
+<a class="btn btn-success" href="/Topics/New">Adauga un nou topic</a>
+<br />
+<br />
+@foreach(var topic in ViewBag.Topics){
+    <div class="card">
+        <div class="card-body">
+            <h3>@topic.Name</h3>
+            <div class="w-75 p-3" style="background-color: #eee;">@topic.Description</div>
+        </div>
+
+        <div class="d-flex flex-row gap-3">
+            <a class="btn btn-success" href="/Categories/Edit/@topic.TopicId">Editare topic</a>
+
+            <form method="post" action="/Categories/Delete/@topic.TopicId">
+
+                <button class="btn btn-outline-danger p-2" type="submit"><i class="bi bi-trash">Sterge</i></button>
+
+            </form>
+        </div>
+    </div>
+}

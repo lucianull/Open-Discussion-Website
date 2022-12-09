@@ -1,0 +1,15 @@
+﻿@model OpenDiscussion.Models.Topic
+
+<h2 class="text-center mt-5">Editare Topic</h2>
+
+<form method="post" action="/Categories/Edit/@Model.TopicId">
+    @Html.Label("Name", "Denumire topic")
+    <br />
+    @Html.Editor("Name")
+    <br /><br />
+    @Html.Label("Description", "Descriere topic")
+    <br />
+    @Html.Editor("Description");
+    <br />
+    <button class="btn btn-success" type="submit">Modifica topicul</button>
+</form>

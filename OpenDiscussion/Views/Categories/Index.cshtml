@@ -8,7 +8,8 @@
 
 @foreach (var category in ViewBag.Categories)
 {
-    <div class="card">
+    <a href="/Topics/Index/@category.CategoryId" class="text-decoration-none text-muted">
+    <div class="card" >
 
         <div class="card-body">
             <h3>@category.Name</h3>
@@ -25,5 +26,6 @@
             </form>
         </div>
     </div>
+    </a>
     <br />
 }

@@ -1,0 +1,25 @@
+﻿@model OpenDiscussion.Models.Topic
+
+
+<h2 class="text-containter mt-5">Adaugare topic</h2>
+
+<br />
+<br />
+
+<div class="container">
+    <div class="col-2">
+        <form method="post" action="/Topics/New">
+            @Html.Label("Name", "Nume Topic")
+            <br />
+            <br />
+            @Html.TextBox("Name", null, new {@class="form-control"})
+            <br />
+            <br />
+            @Html.Label("Description", "Descrierea topicului")
+            <br />
+            <br />
+            @Html.TextArea("Description", null, new {@class="form-control"})
+            <button class="btn btn-success" type="submit">Adauga topic</button>
+        </form>
+    </div>
+</div>
