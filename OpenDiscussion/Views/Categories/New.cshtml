@@ -1,9 +1,21 @@
-﻿@model ArticlesApp.Models.Category
+﻿@model OpenDiscussion.Models.Category
 
 
-@{
-    ViewBag.Title = "Adaugare Categorie";
-}
+<h2 class="text-containter mt-5">Adaugare categorie</h2>
 
+<br />
+<br />
 
+<div class="container">
+    <div class="col-2">
+        <form method="post" action="/Categories/New">
+            @Html.Label("Name", "Nume Categorie")
+            <br />
+            <br />
+            @Html.TextBox("Name", null, new {@class="form-control"})
+            <br />
 
+            <button class="btn btn-success" type="submit">Adauga categorie</button>
+        </form>
+    </div>
+</div>

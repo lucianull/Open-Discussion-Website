@@ -20,7 +20,19 @@ namespace OpenDiscussion.Controllers
             ViewBag.Categories = categories;
             return View();
         }
-
+        public IActionResult Edit(int id)
+        {
+            Category category = db.Categories.Find(id);
+            return View(category);
+        }
+        [HttpPost]
+        public IActionResult Edit(int id, Category requestCategory)
+        {
+            Category category = db.Categories.Find(id);
+            category.Name = requestCategory.Name;
+            db.SaveChanges();
+            return RedirectToAction("Index");
+        }
         public IActionResult New()
         {
             return View();
@@ -31,7 +43,15 @@ namespace OpenDiscussion.Controllers
         {
             db.Categories.Add(cat);
             db.SaveChanges();
+            return RedirectToAction("Index");
         }
-
+        [HttpPost]
+        public IActionResult Delete(int id)
+        {
+            Category category = db.Categories.Find(id);
+            db.Categories.Remove(category);
+            db.SaveChanges();
+            return RedirectToAction("Index");
+        }
     }
 }

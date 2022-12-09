@@ -1,0 +1,11 @@
+﻿@model OpenDiscussion.Models.Category
+
+<h2 class="text-center mt-5">Editare categorie</h2>
+
+<form method="post" action="/Categories/Edit/@Model.CategoryId">
+    @Html.Label("Name", "Denumire categorie")
+    <br />
+    @Html.Editor("Name")
+    <br /><br />
+    <button class="btn btn-success" type="submit">Modifica categoria</button>
+</form>
