@@ -3,7 +3,7 @@
 @{
 }
 
-<a class="btn btn-success" href="/Topics/New">Adauga un nou topic</a>
+<a class="btn btn-success" href="/Topics/New/@ViewBag.TopicCategoryId">Adauga un nou topic</a>
 <br />
 <br />
 @foreach(var topic in ViewBag.Topics){
@@ -14,9 +14,9 @@
         </div>
 
         <div class="d-flex flex-row gap-3">
-            <a class="btn btn-success" href="/Categories/Edit/@topic.TopicId">Editare topic</a>
+            <a class="btn btn-success" href="/Topics/Edit/@topic.TopicId">Editare topic</a>
 
-            <form method="post" action="/Categories/Delete/@topic.TopicId">
+            <form method="post" action="/Topics/Delete/@topic.TopicId">
 
                 <button class="btn btn-outline-danger p-2" type="submit"><i class="bi bi-trash">Sterge</i></button>
 

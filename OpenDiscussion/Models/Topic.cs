@@ -6,10 +6,10 @@ namespace OpenDiscussion.Models
     {
         [Key]   
         public int TopicId { get; set; }
-        //[Required]
+        // [Required]
         public int CategoryId { get; set; }
 
-        public int Name { get; set; }
+        public string Name { get; set; }
 
         public string Description { get; set; }
         public virtual ICollection<Discussion> Discussions { get; set; }

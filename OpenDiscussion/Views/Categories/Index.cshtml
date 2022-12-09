@@ -7,7 +7,8 @@
 <br />
 
 @foreach (var category in ViewBag.Categories)
-{
+{   
+    <h2>@category.CategoryId</h2>
     <a href="/Topics/Index/@category.CategoryId" class="text-decoration-none text-muted">
     <div class="card" >
 

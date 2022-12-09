@@ -7,31 +7,30 @@ namespace OpenDiscussion.Controllers
 {
     public class TopicsController : Controller
     {
-        ApplicationDbContext db;
-        private int CategoryId;
+        private readonly ApplicationDbContext db;
         public TopicsController(ApplicationDbContext context)
         {
             db = context;
         }
         public IActionResult Index(int id)
         {
-            CategoryId = id;
+            Console.WriteLine("Pula mea" + id.ToString());
+            ViewBag.TopicCategoryId = id;
             var topic = db.Topics.Where(top => top.CategoryId == id);
             ViewBag.Topics = topic;
             return View();
         }
-        public IActionResult New()
+        public IActionResult New(int id)
         {
-            ViewBag.CategoryIdVbg = CategoryId;
+            ViewBag.TopicCategoryId = id;
             return View();
         }
         [HttpPost]
         public IActionResult New(Topic topic)
         {
-            topic.CategoryId = CategoryId;
             db.Topics.Add(topic);
             db.SaveChanges();
-            return RedirectToAction("Index");
+            return RedirectToAction("Index", new {id=topic.CategoryId});
         }
         public IActionResult Edit(int id)
         {
@@ -45,7 +44,7 @@ namespace OpenDiscussion.Controllers
             topic.Name = requestTopic.Name;
             topic.Description = requestTopic.Description;
             db.SaveChanges();
-            return RedirectToAction("Index");
+            return RedirectToAction("Index", new { id = topic.CategoryId });
         }
         [HttpPost]
         public IActionResult Delete(int id)
@@ -53,7 +52,7 @@ namespace OpenDiscussion.Controllers
             Topic topic = db.Topics.Find(id);
             db.Topics.Remove(topic);
             db.SaveChanges();
-            return RedirectToAction("Index");
+            return RedirectToAction("Index", new { id = topic.CategoryId });
         }
 
     }
