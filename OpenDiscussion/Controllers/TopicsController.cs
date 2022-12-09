@@ -14,7 +14,6 @@ namespace OpenDiscussion.Controllers
         }
         public IActionResult Index(int id)
         {
-            Console.WriteLine("Pula mea" + id.ToString());
             ViewBag.TopicCategoryId = id;
             var topic = db.Topics.Where(top => top.CategoryId == id);
             ViewBag.Topics = topic;
