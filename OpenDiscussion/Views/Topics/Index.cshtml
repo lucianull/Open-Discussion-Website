@@ -7,6 +7,7 @@
 <br />
 <br />
 @foreach(var topic in ViewBag.Topics){
+    <a href="/Discussions/Index/@topic.TopicId" class="text-decoration-none text-muted">
     <div class="card">
         <div class="card-body">
             <h3>@topic.Name</h3>
@@ -23,4 +24,6 @@
             </form>
         </div>
     </div>
+    </a>
+    <br />
 }

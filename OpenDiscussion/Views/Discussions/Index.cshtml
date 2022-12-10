@@ -1,0 +1,22 @@
+﻿@model OpenDiscussion.Models.Discussion
+
+<a class="btn btn-success" href="/Discussions/New/@ViewBag.DiscussionTopicId">Adauga o noua discutie</a>
+<br />
+<br />
+@foreach(var discussion in ViewBag.Discussions) {
+    // <a href="/Discussions/Index/@discussion.DiscussionId"
+    <div class="card">
+        <div class="card-body">
+            <h3>@discussion.Title</h3>
+            <div class="w-75 p-3" style="background-color: #eee;">@discussion.Content</div>
+        </div>
+        <div class="d-flex flex-row grap-3">
+            <a class="btn btn-success" href="/Discussions/Edit/@discussion.DiscussionId">Editare discutie</a>
+            <form method="post" action="/Discussions/Delete/@discussion.DiscussionId">
+            
+                <button class="btn btn-outline-danger p-2" type="submit"><i class="bi bi-trash">Sterge discutie</i></button>
+
+            </form>
+        </div>
+    </div>
+}
