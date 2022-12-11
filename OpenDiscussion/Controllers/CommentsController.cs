@@ -23,7 +23,6 @@ namespace OpenDiscussion.Controllers
             Comment comment = db.Comments.Find(id);
             comment.Content = requestComment.Content;
             db.SaveChanges();
-            Console.WriteLine("Pula mea frt: " + comment.DiscussionId + "\n");
             return Redirect("/Discussions/Show/" + comment.DiscussionId);
         }
 
