@@ -1,0 +1,11 @@
+﻿@model OpenDiscussion.Models.Comment
+
+<h2 class="text-center mt-5">Editare comentariu</h2>
+
+<form method="post" action="/Comments/Edit/@Model.CommentId">
+    @Html.Label("Content", "Continut comentariu")
+    <br />
+    @Html.Editor("Content")
+    <br />
+    <button class="btn btn-success" type="submit">Editeaza comentariul</button>
+</form>

@@ -56,7 +56,8 @@ namespace OpenDiscussion.Controllers
         }
         public IActionResult Show(int id)
         {
-            Discussion discussion = db.Discussions.Include("Comments").Where(disc => disc.DiscussionId== id).First();
+            Console.WriteLine("Am intrat cu id-ul: " + id.ToString());
+            Discussion discussion = db.Discussions.Include("Comments").Where(disc => disc.DiscussionId == id).First();
             return View(discussion);
         }
         [HttpPost]
