@@ -1,4 +1,5 @@
 ﻿using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 using OpenDiscussion.Data;
 using OpenDiscussion.Models;
 
@@ -7,6 +8,7 @@ namespace OpenDiscussion.Controllers
     public class DiscussionsController : Controller
     {
         private readonly ApplicationDbContext db;
+        // private readonly UserManager<ApplicationUser> _userManager;
         public DiscussionsController(ApplicationDbContext context)
         {
             db = context;
@@ -51,6 +53,19 @@ namespace OpenDiscussion.Controllers
             db.Discussions.Remove(discussion);
             db.SaveChanges();
             return RedirectToAction("Index", new { id = discussion.TopicId});
+        }
+        public IActionResult Show(int id)
+        {
+            Discussion discussion = db.Discussions.Include("Comments").Where(disc => disc.DiscussionId== id).First();
+            return View(discussion);
+        }
+        [HttpPost]
+        public IActionResult Show([FromForm] Comment comment)
+        {
+            comment.Date = DateTime.Now;
+            db.Comments.Add(comment);
+            db.SaveChanges();
+            return RedirectToAction("Show", new {id=comment.DiscussionId});
         }
     }
 }

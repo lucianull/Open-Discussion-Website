@@ -1,0 +1,46 @@
+﻿@model OpenDiscussion.Models.Discussion
+
+<div class="card">
+    <div class="card-body">
+        <h3>@Model.Title</h3>
+        <div class="w-75 p-3" style="background-color: #eee;">@Model.Content</div>
+    </div>
+</div>
+
+@foreach (var comment in Model.Comments)
+{
+    <div class="container">
+        <div class="row">
+            <div class="col-md-2"></div>
+            <div class="col-md-8">
+                <div>
+                    <p>@comment.Content</p>
+                    <small>@comment.Date</small>
+                </div>
+            </div>
+            <div class="col-md-2"></div>
+        </div>
+    </div>
+    <br />
+}
+
+<div class="container">
+    <div class="row">
+        <div class="col-md-2"></div>
+        <div class="col-md-8">
+            <div class="card">
+                <form method="post" action ="/Discussions/Show/@Model.DiscussionId">
+                    <div class="card-body">
+                        <input type="hidden" name="DiscussionId" value="@Model.DiscussionId" />
+                        <label>Continut comentariu</label>
+                        <br />
+                        <textarea class="form-control" name="Content"></textarea>
+                        <br /><br />
+                        <button class="btn btn-success" type="submit">Adauga comentariu</button>
+                    </div>    
+                </form>
+            </div>
+        </div>
+        <div class="col-md-2"></div>
+    </div>
+</div>

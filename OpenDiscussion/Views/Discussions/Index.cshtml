@@ -4,7 +4,7 @@
 <br />
 <br />
 @foreach(var discussion in ViewBag.Discussions) {
-    // <a href="/Discussions/Index/@discussion.DiscussionId"
+    <a href="/Discussions/Show/@discussion.DiscussionId" class="text-decoration-none text-muted">
     <div class="card">
         <div class="card-body">
             <h3>@discussion.Title</h3>
@@ -19,4 +19,5 @@
             </form>
         </div>
     </div>
+    </a>
 }

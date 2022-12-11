@@ -54,6 +54,5 @@ namespace OpenDiscussion.Controllers
             db.SaveChanges();
             return RedirectToAction("Index");
         }
-        
     }
 }
