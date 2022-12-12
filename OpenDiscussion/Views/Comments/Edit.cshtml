@@ -1,6 +1,10 @@
 ﻿@model OpenDiscussion.Models.Comment
 
 <h2 class="text-center mt-5">Editare comentariu</h2>
+@if (Model.CommentId != ViewBag.IdAux && ViewBag.IdAux != null)
+    {
+    Model.CommentId = ViewBag.IdAux;
+    }
 
 <form method="post" action="/Comments/Edit/@Model.CommentId">
     @Html.Label("Content", "Continut comentariu")
