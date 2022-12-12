@@ -1,7 +1,7 @@
 ﻿@model OpenDiscussion.Models.Comment
 
 <h2 class="text-center mt-5">Editare comentariu</h2>
-
+<!--
 <form method="post" action="/Comments/Edit/@Model.CommentId">
     @Html.Label("Content", "Continut comentariu")
     <br />
@@ -10,3 +10,14 @@
     <br />
     <button class="btn btn-success" type="submit">Editeaza comentariul</button>
 </form>
+-->
+
+@using (Html.BeginForm(controllerName:"Comments", actionName:"Edit", method:FormMethod.Post, routeValues:new{id=Model.CommentId}))
+{
+    @Html.Label("Content", "Continut comentariu")
+        <br />
+    @Html.ValidationMessage("Content", null, new {@class="text-danger"})
+    @Html.Editor("Content")
+    <br />
+    <button class="btn btn-success" type="submit">Editeaza comentariul</button>
+}

@@ -22,14 +22,15 @@ namespace OpenDiscussion.Controllers
         {
             if(ModelState.IsValid)
             {
-                Console.WriteLine("Pula mea " + id.ToString() + "\n");
                 Comment comment = db.Comments.Find(id);
                 comment.Content = requestComment.Content;
                 db.SaveChanges();
                 return Redirect("/Discussions/Show/" + comment.DiscussionId);
             }
             else
+            {
                 return View(requestComment);
+            }
         }
 
         public IActionResult Delete(int id) 
