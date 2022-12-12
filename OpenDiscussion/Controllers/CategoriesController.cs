@@ -28,11 +28,18 @@ namespace OpenDiscussion.Controllers
         [HttpPost]
         public IActionResult Edit(int id, Category requestCategory)
         {
-            Category category = db.Categories.Find(id);
-            category.Name = requestCategory.Name;
-            category.Description = requestCategory.Description;
-            db.SaveChanges();
-            return RedirectToAction("Index");
+            if (ModelState.IsValid)
+            {
+                Category category = db.Categories.Find(id);
+                category.Name = requestCategory.Name;
+                category.Description = requestCategory.Description;
+                db.SaveChanges();
+                return RedirectToAction("Index");
+            }
+            else
+            {
+                return View(requestCategory);
+            }
         }
         public IActionResult New()
         {
@@ -40,11 +47,16 @@ namespace OpenDiscussion.Controllers
         }
 
         [HttpPost] 
-        public IActionResult New(Category cat)
+        public IActionResult New(Category requestCategory)
         {
-            db.Categories.Add(cat);
-            db.SaveChanges();
-            return RedirectToAction("Index");
+            if (ModelState.IsValid)
+            {
+                db.Categories.Add(requestCategory);
+                db.SaveChanges();
+                return RedirectToAction("Index");
+            }
+            else
+                return View(requestCategory);
         }
         [HttpPost]
         public IActionResult Delete(int id)

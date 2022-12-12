@@ -13,12 +13,14 @@
             @Html.Label("Name", "Nume Topic")
             <br />
             <br />
+            @Html.ValidationMessage("Name", null, new {@class="text-danger"})
             @Html.TextBox("Name", null, new {@class="form-control"})
             <br />
             <br />
             @Html.Label("Description", "Descrierea topicului")
             <br />
             <br />
+            @Html.ValidationMessage("Description", null, new {@class="text-danger"})
             @Html.TextArea("Description", null, new {@class="form-control"})
             <button class="btn btn-success" type="submit">Adauga topic</button>
         </form>

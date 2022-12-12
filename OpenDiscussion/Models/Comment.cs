@@ -8,6 +8,7 @@ namespace OpenDiscussion.Models
         public int CommentId { get; set;}
         public int DiscussionId { get; set;}
         public int UserId { get; set; }
+        [Required(ErrorMessage ="Continutul comentariului este obligatoriu")]
         public string Content { get; set; }
         public DateTime Date { get; set; }
 

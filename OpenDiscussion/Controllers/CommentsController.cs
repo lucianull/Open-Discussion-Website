@@ -20,10 +20,15 @@ namespace OpenDiscussion.Controllers
         [HttpPost]
         public IActionResult Edit(int id, Comment requestComment)
         {
-            Comment comment = db.Comments.Find(id);
-            comment.Content = requestComment.Content;
-            db.SaveChanges();
-            return Redirect("/Discussions/Show/" + comment.DiscussionId);
+            if(ModelState.IsValid)
+            {
+                Comment comment = db.Comments.Find(id);
+                comment.Content = requestComment.Content;
+                db.SaveChanges();
+                return Redirect("/Discussions/Show/" + comment.DiscussionId);
+            }
+            else
+                return View(requestComment);
         }
 
         public IActionResult Delete(int id) 

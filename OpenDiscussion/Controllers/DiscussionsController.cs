@@ -29,11 +29,16 @@ namespace OpenDiscussion.Controllers
         [HttpPost]
         public IActionResult Edit(int id, Discussion requestDiscussion)
         {
-            Discussion discussion = db.Discussions.Find(id);
-            discussion.Title = requestDiscussion.Title;
-            discussion.Content = requestDiscussion.Content;
-            db.SaveChanges();
-            return RedirectToAction("Index", new {id = discussion.TopicId});
+            if(ModelState.IsValid)
+            {
+                Discussion discussion = db.Discussions.Find(id);
+                discussion.Title = requestDiscussion.Title;
+                discussion.Content = requestDiscussion.Content;
+                db.SaveChanges();
+                return RedirectToAction("Index", new {id = discussion.TopicId});
+            }
+            else
+                return View(requestDiscussion);
         }
         public IActionResult New(int id)
         {
@@ -43,9 +48,15 @@ namespace OpenDiscussion.Controllers
         [HttpPost]
         public IActionResult New(Discussion discussion)
         {
-            db.Discussions.Add(discussion);
-            db.SaveChanges();
-            return RedirectToAction("Index", new { id = discussion.TopicId});
+            if (ModelState.IsValid)
+            {
+                discussion.Date = DateTime.Now;
+                db.Discussions.Add(discussion);
+                db.SaveChanges();
+                return RedirectToAction("Index", new { id = discussion.TopicId });
+            }
+            else
+                return View(discussion);
         }
         public IActionResult Delete(int id)
         {
@@ -62,10 +73,18 @@ namespace OpenDiscussion.Controllers
         [HttpPost]
         public IActionResult Show([FromForm] Comment comment)
         {
-            comment.Date = DateTime.Now;
-            db.Comments.Add(comment);
-            db.SaveChanges();
-            return RedirectToAction("Show", new {id=comment.DiscussionId});
+            if (ModelState.IsValid)
+            {
+                comment.Date = DateTime.Now;
+                db.Comments.Add(comment);
+                db.SaveChanges();
+                return RedirectToAction("Show", new { id = comment.DiscussionId });
+            }
+            else
+            {
+                Discussion discussion = db.Discussions.Include("Comments").Where(disc => disc.DiscussionId == comment.DiscussionId).First();
+                return View(discussion);
+            }
         }
     }
 }

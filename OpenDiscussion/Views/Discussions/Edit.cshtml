@@ -4,10 +4,12 @@
 <form method="post" action="/Discussions/Edit/@Model.DiscussionId">
     @Html.Label("Title", "Titlu")
     <br />
+    @Html.ValidationMessage("Title", null, new {@class="text-danger"})
     @Html.Editor("Title")
     <br /><br />
     @Html.Label("Content", "Continut discutie")
     <br />
+    @Html.ValidationMessage("Content", null, new {@class="text-danger"})
     @Html.Editor("Content")
     <br />
     <button class="btn btn-success" type="submit">Modifica discutia</button>

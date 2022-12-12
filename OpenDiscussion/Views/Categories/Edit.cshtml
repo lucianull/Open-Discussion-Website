@@ -5,11 +5,13 @@
 <form method="post" action="/Categories/Edit/@Model.CategoryId">
     @Html.Label("Name", "Denumire categorie")
     <br />
+    @Html.ValidationMessage("Name", null, new {@class="text-danger"})
     @Html.Editor("Name")
     <br /><br />
     @Html.Label("Description", "Descriere categorie")
     <br />
-    @Html.Editor("Description");
+    @Html.ValidationMessage("Description", null, new {@class="text-danger"})
+    @Html.Editor("Description")
     <br />
     <button class="btn btn-success" type="submit">Modifica categoria</button>
 </form>

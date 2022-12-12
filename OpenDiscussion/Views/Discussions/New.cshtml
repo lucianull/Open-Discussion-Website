@@ -10,10 +10,12 @@
             <input type="hidden" name="TopicId" value="@ViewBag.DiscussionTopicId" />
             @Html.Label("Title", "Titlu")
             <br /> <br />
+            @Html.ValidationMessage("Title", null, new {@class="text-danger"})
             @Html.TextBox("Title", null, new {@class="form-control"})
             <br /> <br />
             @Html.Label("Content", "Continutul discutiei")
             <br /> <br />
+            @Html.ValidationMessage("Content", null, new {@class="text-danger"})
             @Html.TextArea("Content", null, new {@class="form-control"})
             <button class="btn btn-success" type="submit">Adauga discutie</button>
         </form>
