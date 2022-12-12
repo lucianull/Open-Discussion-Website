@@ -17,15 +17,20 @@
                     <p>@comment.Content</p>
                     <small>@comment.Date</small>
                 </div>
+                <br />
+                <div class="d-flex flex-row">
+                    <a class="btn btn-success p-2" href="/Comments/Edit/@comment.CommentId">Editare comentariu</a>
+                    <form method="post" action="/Comments/Delete/@comment.CommentId">
+
+                        <button class="btn btn-outline-danger p-2" type="submit"><i class="bi bi-trash">Sterge</i></button>
+
+                    </form>
+                </div>
             </div>
             <div class="col-md-2"></div>
+            
         </div>
-        <a class="btn btn-success" href="/Comments/Edit/@comment.CommentId">Editare comentariu</a>
-        <form method="post" action="/Comments/Delete/@comment.CommentId">
-
-            <button class="btn btn-outline-danger p-2" type="submit"><i class="bi bi-trash">Sterge</i></button>
-
-        </form>
+        
     </div>
     <br />
 }

@@ -1,0 +1,16 @@
+﻿
+<div class="card">
+    <div class="card-body">
+        <h3>@Model.Title</h3>
+        <div class="w-75 p-3" style="background-color: #eee;">@Model.Content</div>
+        <h5>@Model.Date</h5>
+    </div>
+    <div class="d-flex flex-row grap-3">
+        <a class="btn btn-success" href="/Discussions/Edit/@Model.DiscussionId">Editare discutie</a>
+        <form method="post" action="/Discussions/Delete/@Model.DiscussionId">
+
+            <button class="btn btn-outline-danger p-2" type="submit"><i class="bi bi-trash">Sterge discutie</i></button>
+
+        </form>
+    </div>
+</div>
