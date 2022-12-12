@@ -24,7 +24,7 @@ namespace OpenDiscussion.Controllers
         [Authorize(Roles = "User,Moderator,Admin")]
         public IActionResult Index(int id)
         {
-            var discussions = db.Discussions.Where(disc => disc.TopicId == id);
+            var discussions = db.Discussions.Include("User").Where(disc => disc.TopicId == id);
             ViewBag.DiscussionTopicId = id;
             ViewBag.Discussions = discussions;
             return View();
@@ -78,7 +78,7 @@ namespace OpenDiscussion.Controllers
         [Authorize(Roles = "User,Moderator,Admin")]
         public IActionResult Show(int id)
         {
-            Discussion discussion = db.Discussions.Include("Comments").Where(disc => disc.DiscussionId == id).First();
+            Discussion discussion = db.Discussions.Include("Comments").Include("User").Where(disc => disc.DiscussionId == id).First();
             return View(discussion);
         }
         [Authorize(Roles = "User,Moderator,Admin")]
@@ -88,13 +88,14 @@ namespace OpenDiscussion.Controllers
             if (ModelState.IsValid)
             {
                 comment.Date = DateTime.Now;
+
                 db.Comments.Add(comment);
                 db.SaveChanges();
                 return RedirectToAction("Show", new { id = comment.DiscussionId });
             }
             else
             {
-                Discussion discussion = db.Discussions.Include("Comments").Where(disc => disc.DiscussionId == comment.DiscussionId).First();
+                Discussion discussion = db.Discussions.Include("Comments").Include("User").Where(disc => disc.DiscussionId == comment.DiscussionId).First();
                 return View(discussion);
             }
         }
