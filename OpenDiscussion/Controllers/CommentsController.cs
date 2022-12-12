@@ -22,6 +22,7 @@ namespace OpenDiscussion.Controllers
         {
             if(ModelState.IsValid)
             {
+                Console.WriteLine("Pula mea " + id.ToString() + "\n");
                 Comment comment = db.Comments.Find(id);
                 comment.Content = requestComment.Content;
                 db.SaveChanges();

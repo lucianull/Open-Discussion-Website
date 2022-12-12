@@ -5,6 +5,7 @@
 <form method="post" action="/Comments/Edit/@Model.CommentId">
     @Html.Label("Content", "Continut comentariu")
     <br />
+    @Html.ValidationMessage("Content", null, new {@class="text-danger"})
     @Html.Editor("Content")
     <br />
     <button class="btn btn-success" type="submit">Editeaza comentariul</button>
