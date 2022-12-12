@@ -20,9 +20,8 @@ namespace OpenDiscussion.Controllers
         [HttpPost]
         public IActionResult Edit(int id, Comment requestComment)
         {
-            if (ModelState.IsValid)
+            if(ModelState.IsValid)
             {
-                ViewBag.IdAux = id;
                 Console.WriteLine("Pula mea " + id.ToString() + "\n");
                 Comment comment = db.Comments.Find(id);
                 comment.Content = requestComment.Content;
@@ -30,10 +29,7 @@ namespace OpenDiscussion.Controllers
                 return Redirect("/Discussions/Show/" + comment.DiscussionId);
             }
             else
-            {
-                ViewBag.IdAux = id;
                 return View(requestComment);
-            }
         }
 
         public IActionResult Delete(int id) 
