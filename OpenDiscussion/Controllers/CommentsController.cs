@@ -20,6 +20,7 @@ namespace OpenDiscussion.Controllers
         [HttpPost]
         public IActionResult Edit(int id, Comment requestComment)
         {
+            ViewBag.IdAux = id;
             if(ModelState.IsValid)
             {
                 Comment comment = db.Comments.Find(id);
