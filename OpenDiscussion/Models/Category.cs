@@ -1,4 +1,5 @@
 ﻿using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.SignalR;
 using System.ComponentModel.DataAnnotations;
 
 namespace OpenDiscussion.Models
@@ -15,5 +16,6 @@ namespace OpenDiscussion.Models
         public string Description { get; set; }
 
         public virtual ICollection<Topic>? Topics { get; set; }
+
     }
 }

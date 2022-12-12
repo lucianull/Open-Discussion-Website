@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Identity;
+using Microsoft.AspNetCore.Mvc;
 using OpenDiscussion.Data;
 using OpenDiscussion.Models;
 
@@ -7,10 +8,15 @@ namespace OpenDiscussion.Controllers
     public class CommentsController : Controller
     {
         private readonly ApplicationDbContext db;
-
-        public CommentsController(ApplicationDbContext context)
+        private readonly UserManager<ApplicationUser> _userManager;
+        private readonly RoleManager<IdentityRole> _roleManager;
+        public CommentsController(ApplicationDbContext context,
+                                  UserManager<ApplicationUser> userManager,
+                                  RoleManager<IdentityRole> roleManager)
         {
             db= context;
+            _userManager = userManager;
+            _roleManager = roleManager;
         }
         public IActionResult Edit(int id)
         {

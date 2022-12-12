@@ -1,7 +1,9 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using OpenDiscussion.Data;
 using OpenDiscussion.Models;
+using System.Data;
 
 namespace OpenDiscussion.Controllers
 {
@@ -12,6 +14,7 @@ namespace OpenDiscussion.Controllers
         {
             db = context;
         }
+        [Authorize(Roles = "User,Moderator,Admin")]
         public IActionResult Index(int id)
         {
             ViewBag.TopicCategoryId = id;
@@ -19,11 +22,13 @@ namespace OpenDiscussion.Controllers
             ViewBag.Topics = topic;
             return View();
         }
+        [Authorize(Roles = "Admin")]
         public IActionResult New(int id)
         {
             ViewBag.TopicCategoryId = id;
             return View();
         }
+        [Authorize(Roles = "Admin")]
         [HttpPost]
         public IActionResult New(Topic topic)
         {
@@ -36,11 +41,13 @@ namespace OpenDiscussion.Controllers
             else
                 return View(topic);
         }
+        [Authorize(Roles = "Admin")]
         public IActionResult Edit(int id)
         {
             Topic topic = db.Topics.Find(id);
             return View(topic);
         }
+        [Authorize(Roles = "Admin")]
         [HttpPost]
         public IActionResult Edit(int id, Topic requestTopic)
         {
@@ -55,6 +62,7 @@ namespace OpenDiscussion.Controllers
             else
                 return View(requestTopic);
         }
+        [Authorize(Roles = "Admin")]
         [HttpPost]
         public IActionResult Delete(int id)
         {

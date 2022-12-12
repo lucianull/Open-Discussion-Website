@@ -1,19 +1,27 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Identity;
+using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using OpenDiscussion.Data;
 using OpenDiscussion.Models;
+using System.Data;
 
 namespace OpenDiscussion.Controllers
 {
     public class DiscussionsController : Controller
     {
         private readonly ApplicationDbContext db;
-        // private readonly UserManager<ApplicationUser> _userManager;
-        public DiscussionsController(ApplicationDbContext context)
+        private readonly UserManager<ApplicationUser> _userManager;
+        private readonly RoleManager<IdentityRole> _roleManager;
+        public DiscussionsController(ApplicationDbContext context,
+                                     UserManager<ApplicationUser> userManager,
+                                     RoleManager<IdentityRole> roleManager)
         {
             db = context;
+            _userManager = userManager;
+            _roleManager = roleManager;
         }
-
+        [Authorize(Roles = "User,Moderator,Admin")]
         public IActionResult Index(int id)
         {
             var discussions = db.Discussions.Where(disc => disc.TopicId == id);
@@ -40,11 +48,13 @@ namespace OpenDiscussion.Controllers
             else
                 return View(requestDiscussion);
         }
+        [Authorize(Roles = "User,Moderator,Admin")]
         public IActionResult New(int id)
         {
             ViewBag.DiscussionTopicId = id;
             return View();
         }
+        [Authorize(Roles = "User,Moderator,Admin")]
         [HttpPost]
         public IActionResult New(Discussion discussion)
         {
@@ -65,11 +75,13 @@ namespace OpenDiscussion.Controllers
             db.SaveChanges();
             return RedirectToAction("Index", new { id = discussion.TopicId});
         }
+        [Authorize(Roles = "User,Moderator,Admin")]
         public IActionResult Show(int id)
         {
             Discussion discussion = db.Discussions.Include("Comments").Where(disc => disc.DiscussionId == id).First();
             return View(discussion);
         }
+        [Authorize(Roles = "User,Moderator,Admin")]
         [HttpPost]
         public IActionResult Show([FromForm] Comment comment)
         {
