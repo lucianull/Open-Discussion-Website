@@ -5,7 +5,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 
 namespace OpenDiscussion.Migrations
 {
-    public partial class migrationAll : Migration
+    public partial class UserRoles : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {

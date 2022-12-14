@@ -51,9 +51,10 @@ namespace OpenDiscussion.Controllers
         [HttpPost]
         public IActionResult Edit(int id, Topic requestTopic)
         {
-            if(ModelState.IsValid)
+            Topic topic = db.Topics.Find(id);
+            requestTopic.TopicId = id;
+            if (ModelState.IsValid)
             {
-                Topic topic = db.Topics.Find(id);
                 topic.Name = requestTopic.Name;
                 topic.Description = requestTopic.Description;
                 db.SaveChanges();

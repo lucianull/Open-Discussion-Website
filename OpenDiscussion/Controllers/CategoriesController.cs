@@ -32,9 +32,9 @@ namespace OpenDiscussion.Controllers
         [HttpPost]
         public IActionResult Edit(int id, Category requestCategory)
         {
+            Category category = db.Categories.Find(id);
             if (ModelState.IsValid)
             {
-                Category category = db.Categories.Find(id);
                 category.Name = requestCategory.Name;
                 category.Description = requestCategory.Description;
                 db.SaveChanges();

@@ -12,8 +12,8 @@ using OpenDiscussion.Data;
 namespace OpenDiscussion.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20221212181847_migrationAll")]
-    partial class migrationAll
+    [Migration("20221212184628_UserRoles")]
+    partial class UserRoles
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
