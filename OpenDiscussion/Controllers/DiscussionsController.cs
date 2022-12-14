@@ -38,6 +38,7 @@ namespace OpenDiscussion.Controllers
         public IActionResult Edit(int id, Discussion requestDiscussion)
         {
             Discussion discussion = db.Discussions.Find(id);
+            requestDiscussion.DiscussionId = id;
             if (ModelState.IsValid)
             {
                 discussion.Title = requestDiscussion.Title;

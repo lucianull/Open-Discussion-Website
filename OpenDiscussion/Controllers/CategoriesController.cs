@@ -33,6 +33,7 @@ namespace OpenDiscussion.Controllers
         public IActionResult Edit(int id, Category requestCategory)
         {
             Category category = db.Categories.Find(id);
+            requestCategory.CategoryId = id;
             if (ModelState.IsValid)
             {
                 category.Name = requestCategory.Name;

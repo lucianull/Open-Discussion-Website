@@ -27,6 +27,7 @@ namespace OpenDiscussion.Controllers
         public IActionResult Edit(int id, Comment requestComment)
         {
             Comment comment = db.Comments.Find(id);
+            requestComment.CommentId = id;
             if (ModelState.IsValid)
             {
                 comment.Content = requestComment.Content;
