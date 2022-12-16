@@ -52,26 +52,32 @@ namespace OpenDiscussion.Controllers
         [Authorize(Roles = "User,Moderator,Admin")]
         public IActionResult New(int id)
         {
-            ViewBag.DiscussionTopicId = id;
-            return View();
+            Discussion discussion = new Discussion();
+            discussion.TopicId = id;
+            return View(discussion);
         }
         [Authorize(Roles = "User,Moderator,Admin")]
         [HttpPost]
-        public IActionResult New(Discussion discussion)
+        public IActionResult New(int id, Discussion discussion)
         {
+            discussion.UserId = _userManager.GetUserId(User);
+            discussion.Date = DateTime.Now;
+            discussion.TopicId = id;
             if (ModelState.IsValid)
             {
-                discussion.Date = DateTime.Now;
                 db.Discussions.Add(discussion);
                 db.SaveChanges();
+
                 return RedirectToAction("Index", new { id = discussion.TopicId });
             }
             else
+            {
                 return View(discussion);
+            }
         }
         public IActionResult Delete(int id)
         {
-            Discussion discussion = db.Discussions.Find(id);
+            Discussion discussion = db.Discussions.Include("Comments").Where(diss => diss.DiscussionId == id).First();
             db.Discussions.Remove(discussion);
             db.SaveChanges();
             return RedirectToAction("Index", new { id = discussion.TopicId});

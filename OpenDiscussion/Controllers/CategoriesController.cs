@@ -68,7 +68,7 @@ namespace OpenDiscussion.Controllers
         [HttpPost]
         public IActionResult Delete(int id)
         {
-            Category category = db.Categories.Find(id);
+            Category category = db.Categories.Include("Topics").Where(cat => cat.CategoryId == id).First();
             db.Categories.Remove(category);
             db.SaveChanges();
             return RedirectToAction("Index");
