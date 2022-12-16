@@ -33,7 +33,13 @@ namespace OpenDiscussion.Controllers
         public IActionResult Edit(int id)
         {
             Discussion discussion = db.Discussions.Find(id);
-            return View(discussion);
+            if (_userManager.GetUserId(User) == discussion.UserId || User.IsInRole("Moderator") || User.IsInRole("Admin"))
+                return View(discussion);
+            else
+            {
+                TempData["Message"] = "Nu aveti voie sa editati o discutie care nu va apartine";
+                return RedirectToAction("Index", new { id = discussion.TopicId });
+            }
         }
         [Authorize(Roles = "User,Moderator,Admin")]
         [HttpPost]
@@ -52,7 +58,7 @@ namespace OpenDiscussion.Controllers
                 }
                 else
                 {
-                    TempData["MessageDeny"] = "Nu aveti voie sa editati o discutie care nu va apartine";
+                    TempData["Message"] = "Nu aveti voie sa editati o discutie care nu va apartine";
                     return RedirectToAction("Index", new { id = discussion.TopicId }); 
                 }
             }
@@ -98,7 +104,7 @@ namespace OpenDiscussion.Controllers
             }
             else
             {
-                TempData["MessageDeny"] = "Nu aveti voie sa stergeti o discutie care nu va apartine";
+                TempData["Message"] = "Nu aveti voie sa stergeti o discutie care nu va apartine";
                 return RedirectToAction("Index", new { id = discussion.TopicId });
             }
 

@@ -4,6 +4,11 @@
 <br />
 <br />
 
+@if (TempData.ContainsKey("Message"))
+{
+    <p>@TempData["Message"]</p>
+    <br/>
+}
 @foreach(OpenDiscussion.Models.Discussion discussion in ViewBag.Discussions) {
     <a href="/Discussions/Show/@discussion.DiscussionId" class="text-decoration-none text-muted">
         @Html.Partial("Card", discussion)
