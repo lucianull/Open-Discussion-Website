@@ -1,7 +1,9 @@
-﻿using Microsoft.AspNetCore.Identity;
+﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using OpenDiscussion.Data;
 using OpenDiscussion.Models;
+using System.Data;
 
 namespace OpenDiscussion.Controllers
 {
@@ -18,11 +20,21 @@ namespace OpenDiscussion.Controllers
             _userManager = userManager;
             _roleManager = roleManager;
         }
+        [Authorize(Roles = "User,Moderator,Admin")]
         public IActionResult Edit(int id)
         {
+
             Comment comment = db.Comments.Find(id);
-            return View(comment);
+            if (_userManager.GetUserId(User) == comment.UserId || User.IsInRole("Moderator") || User.IsInRole("Admin"))
+                return View(comment);
+            else
+            {
+                TempData["Message"] = "Nu aveti voie sa editati comentariul altcuiva";
+                return Redirect("/Discussions/Show/" + comment.DiscussionId);
+            }
+
         }
+        [Authorize(Roles = "User,Moderator,Admin")]
         [HttpPost]
         public IActionResult Edit(int id, Comment requestComment)
         {
@@ -30,22 +42,41 @@ namespace OpenDiscussion.Controllers
             requestComment.CommentId = id;
             if (ModelState.IsValid)
             {
-                comment.Content = requestComment.Content;
-                db.SaveChanges();
-                return Redirect("/Discussions/Show/" + comment.DiscussionId);
+                if (_userManager.GetUserId(User) == comment.UserId || User.IsInRole("Moderator") || User.IsInRole("Admin"))
+                {
+                    comment.Content = requestComment.Content;
+                    db.SaveChanges();
+                    return Redirect("/Discussions/Show/" + comment.DiscussionId);
+                }
+                else
+                {
+                    TempData["Message"] = "Nu aveti voie sa editati comentariul altcuiva";
+                    return Redirect("/Discussions/Show/" + comment.DiscussionId);
+                }
+
             }
             else
             {
                 return View(requestComment);
             }
         }
-
+        [Authorize(Roles = "User,Moderator,Admin")]
+        [HttpPost]
         public IActionResult Delete(int id) 
         { 
             Comment comment = db.Comments.Find(id);
-            db.Comments.Remove(comment);
-            db.SaveChanges();
-            return Redirect("/Discussions/Show/" + comment.DiscussionId);
+            if (_userManager.GetUserId(User) == comment.UserId || User.IsInRole("Moderator") || User.IsInRole("Admin"))
+            {
+                db.Comments.Remove(comment);
+                db.SaveChanges();
+                return Redirect("/Discussions/Show/" + comment.DiscussionId);
+            }
+            else
+            {
+                TempData["Message"] = "Nu aveti voie sa stergeti comentariul altcuiva";
+                return Redirect("/Discussions/Show/" + comment.DiscussionId);
+            }
+
         }
     }
 }
