@@ -27,6 +27,7 @@ namespace OpenDiscussion.Controllers
             var discussions = db.Discussions.Include("User").Where(disc => disc.TopicId == id);
             ViewBag.DiscussionTopicId = id;
             ViewBag.Discussions = discussions;
+            SetAccessRights();
             return View();
         }
         [Authorize(Roles = "User,Moderator,Admin")]
@@ -118,6 +119,7 @@ namespace OpenDiscussion.Controllers
                                     .Include("Comments.User")
                                     .Where(disc => disc.DiscussionId == id)
                                     .First();
+            SetAccessRights();
             return View(discussion);
         }
         [Authorize(Roles = "User,Moderator,Admin")]
@@ -141,6 +143,13 @@ namespace OpenDiscussion.Controllers
                                                       .First();
                 return View(discussion);
             }
+        }
+        private void SetAccessRights()
+        {
+            ViewBag.ShowButtons = false;
+            if(User.IsInRole("Moderator") || User.IsInRole("Admin"))
+                ViewBag.ShowButtons = true;
+            ViewBag.CurrentUser = _userManager.GetUserId(User);
         }
     }
 }

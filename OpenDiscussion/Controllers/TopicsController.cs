@@ -1,4 +1,5 @@
 ﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using OpenDiscussion.Data;
@@ -10,9 +11,13 @@ namespace OpenDiscussion.Controllers
     public class TopicsController : Controller
     {
         private readonly ApplicationDbContext db;
-        public TopicsController(ApplicationDbContext context)
+        private readonly UserManager<ApplicationUser> _userManager;
+        private readonly RoleManager<IdentityRole> _roleManager;
+        public TopicsController(ApplicationDbContext context, UserManager<ApplicationUser> userManager, RoleManager<IdentityRole> roleManager)
         {
             db = context;
+            _userManager = userManager;
+            _roleManager = roleManager;
         }
         [Authorize(Roles = "User,Moderator,Admin")]
         public IActionResult Index(int id)
@@ -20,34 +25,54 @@ namespace OpenDiscussion.Controllers
             ViewBag.TopicCategoryId = id;
             var topic = db.Topics.Where(top => top.CategoryId == id);
             ViewBag.Topics = topic;
+            SetAccessRights();
             return View();
         }
-        [Authorize(Roles = "Admin")]
+        [Authorize(Roles = "Admin,Moderator")]
         public IActionResult New(int id)
         {
-            ViewBag.TopicCategoryId = id;
-            return View();
+            if(User.IsInRole("Moderator") || User.IsInRole("Admin"))
+            {
+                ViewBag.TopicCategoryId = id;
+                return View();
+            }
+            else
+            {
+                TempData["Message"] = "Nu aveti voie sa adaugati un topic";
+                return RedirectToAction("Index", new {id = id});
+            }
         }
-        [Authorize(Roles = "Admin")]
+        [Authorize(Roles = "Admin,Moderator")]
         [HttpPost]
         public IActionResult New(Topic topic)
         {
             if (ModelState.IsValid)
             {
-                db.Topics.Add(topic);
-                db.SaveChanges();
+                if (User.IsInRole("Moderator") || User.IsInRole("Admin"))
+                {
+                    db.Topics.Add(topic);
+                    db.SaveChanges();
+                }
+                else
+                    TempData["Message"] = "Nu aveti voie sa adaugati un topic";
                 return RedirectToAction("Index", new { id = topic.CategoryId });
             }
             else
                 return View(topic);
         }
-        [Authorize(Roles = "Admin")]
+        [Authorize(Roles = "Admin,Moderator")]
         public IActionResult Edit(int id)
         {
             Topic topic = db.Topics.Find(id);
-            return View(topic);
+            if(User.IsInRole("Moderator") || User.IsInRole("Admin"))
+                return View(topic);
+            else
+            {
+                TempData["Message"] = "Nu aveti voie sa editati un topic";
+                return RedirectToAction("Index", new {id = topic.CategoryId});
+            }
         }
-        [Authorize(Roles = "Admin")]
+        [Authorize(Roles = "Admin,Moderator")]
         [HttpPost]
         public IActionResult Edit(int id, Topic requestTopic)
         {
@@ -55,23 +80,42 @@ namespace OpenDiscussion.Controllers
             requestTopic.TopicId = id;
             if (ModelState.IsValid)
             {
-                topic.Name = requestTopic.Name;
-                topic.Description = requestTopic.Description;
-                db.SaveChanges();
-                return RedirectToAction("Index", new { id = topic.CategoryId });
+                if(User.IsInRole("Moderator") || User.IsInRole("Admin"))
+                {
+                    topic.Name = requestTopic.Name;
+                    topic.Description = requestTopic.Description;
+                    db.SaveChanges();
+                    return RedirectToAction("Index", new { id = topic.CategoryId });
+                }
+                else
+                {
+                    TempData["Messagee"] = "Nu aveti voie sa editati un topic";
+                    return RedirectToAction("Index", new { id = topic.CategoryId });
+                }
             }
             else
                 return View(requestTopic);
         }
-        [Authorize(Roles = "Admin")]
+        [Authorize(Roles = "Admin,Moderator")]
         [HttpPost]
         public IActionResult Delete(int id)
         {
             Topic topic = db.Topics.Include("Discussions").Where(top => top.TopicId == id).First();
-            db.Topics.Remove(topic);
-            db.SaveChanges();
+            if (User.IsInRole("Moderator") || User.IsInRole("Admin"))
+            {
+                db.Topics.Remove(topic);
+                db.SaveChanges();
+            }
             return RedirectToAction("Index", new { id = topic.CategoryId });
         }
 
+        private void SetAccessRights()
+        {
+            ViewBag.ShowButtons = false;
+            if(User.IsInRole("Moderator"))
+                ViewBag.ShowButtons = true;
+            ViewBag.isAdmin = User.IsInRole("Admin");
+            ViewBag.CurrentUser = _userManager.GetUserId(User);
+        }
     }
 }
