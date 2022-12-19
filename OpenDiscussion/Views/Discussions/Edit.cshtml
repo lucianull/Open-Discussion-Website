@@ -1,5 +1,12 @@
 ﻿@model OpenDiscussion.Models.Discussion
 
+<br />
+<div>
+    <a class="btn btn-success" href="/Discussions/Index/@Model.TopicId">Inapoi</a>
+</div>
+<br />
+<br />
+
 <h2 class="text-center mt-5">Editare discutie</h2>
 <form method="post" action="/Discussions/Edit/@Model.DiscussionId">
     @Html.Label("Title", "Titlu")

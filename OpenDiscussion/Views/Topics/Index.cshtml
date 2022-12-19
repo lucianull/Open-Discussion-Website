@@ -6,6 +6,11 @@
 <a class="btn btn-success" href="/Topics/New/@ViewBag.TopicCategoryId">Adauga un nou topic</a>
 <br />
 <br />
+<div>
+    <a class="btn btn-success" href="/Categories/Index">Inapoi</a>
+</div>
+<br />
+<br />
 @foreach(var topic in ViewBag.Topics){
     <a href="/Discussions/Index/@topic.TopicId" class="text-decoration-none text-muted">
     <div class="card">

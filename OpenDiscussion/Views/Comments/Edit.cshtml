@@ -2,10 +2,12 @@
 
 <h2 class="text-center mt-5">Editare comentariu</h2>
 
-@if (Model.CommentId != ViewBag.IdAux && ViewBag.IdAux != null)
-{
-    Model.CommentId = ViewBag.IdAux;
-}
+<br />
+<div>
+    <a class="btn btn-success" href="/Discussions/Show/@Model.DiscussionId">Inapoi</a>
+</div>
+<br />
+<br />
 
 <form method="post" action="/Comments/Edit/@Model.CommentId">
     @Html.Label("Content", "Continut comentariu")

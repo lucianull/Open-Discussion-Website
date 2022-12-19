@@ -2,6 +2,13 @@
 
 <h2 class="text-center mt-5">Editare Topic</h2>
 
+<br />
+<div>
+    <a class="btn btn-success" href="/Topics/Index/@Model.CategoryId">Inapoi</a>
+</div>
+<br />
+<br />
+
 <form method="post" action="/Topics/Edit/@Model.TopicId">
     @Html.Label("Name", "Denumire topic")
     <br />
