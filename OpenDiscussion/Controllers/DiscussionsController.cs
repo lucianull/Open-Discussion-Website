@@ -25,6 +25,12 @@ namespace OpenDiscussion.Controllers
         public IActionResult Index(int id)
         {
             var discussions = db.Discussions.Include("User").Where(disc => disc.TopicId == id);
+            var topicCount = db.Topics.Where(top => top.TopicId == id).Count();
+            if (topicCount > 0)
+            { 
+                var topic = db.Topics.Where(top => top.TopicId == id).First();
+                ViewBag.DiscussionCategoryId = topic.CategoryId;
+            }
             ViewBag.DiscussionTopicId = id;
             ViewBag.Discussions = discussions;
             SetAccessRights();
