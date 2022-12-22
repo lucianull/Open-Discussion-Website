@@ -11,10 +11,10 @@ namespace OpenDiscussion.Controllers
         {
             db = context;
         }
-        public IActionResult Show(int id)
+        /*public IActionResult Show(int id)
         {
             ApplicationUser currentUser = db.ApplicationUser.Where(prof => prof.UserId == id).First();
             return View(profile);
-        }
+        }*/
     }
 }
