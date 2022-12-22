@@ -14,6 +14,6 @@ namespace OpenDiscussion.Data
         public DbSet <Category> Categories { get; set; }
         public DbSet <Discussion> Discussions { get; set; }
         public DbSet <Topic> Topics { get; set; }
-        // ceva
+        public DbSet <Profile> Profiles { get; set; }
     }
 }
