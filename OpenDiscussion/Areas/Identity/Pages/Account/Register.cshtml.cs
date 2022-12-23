@@ -5,6 +5,7 @@
 using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
+using System.Data.Common;
 using System.Linq;
 using System.Text;
 using System.Text.Encodings.Web;
@@ -17,7 +18,11 @@ using Microsoft.AspNetCore.Identity.UI.Services;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using Microsoft.AspNetCore.WebUtilities;
+using Microsoft.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore.Diagnostics;
+using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
+using OpenDiscussion.Data;
 using OpenDiscussion.Models;
 
 namespace OpenDiscussion.Areas.Identity.Pages.Account
@@ -107,6 +112,14 @@ namespace OpenDiscussion.Areas.Identity.Pages.Account
             ExternalLogins = (await _signInManager.GetExternalAuthenticationSchemesAsync()).ToList();
         }
 
+        public async Task setDataAndCountsAsync(ApplicationUser user)
+        {
+            user.DiscussionCount = 0;
+            user.CommentCount = 0;
+            user.DateOfCreation = DateTime.Now;
+            user.DisplayName = user.UserName;
+        }
+
         public async Task<IActionResult> OnPostAsync(string returnUrl = null)
         {
             returnUrl ??= Url.Content("~/");
@@ -116,9 +129,9 @@ namespace OpenDiscussion.Areas.Identity.Pages.Account
                 var user = CreateUser();
 
                 await _userStore.SetUserNameAsync(user, Input.Email, CancellationToken.None);
+                await setDataAndCountsAsync(user);
                 await _emailStore.SetEmailAsync(user, Input.Email, CancellationToken.None);
                 var result = await _userManager.CreateAsync(user, Input.Password);
-
                 if (result.Succeeded)
                 {
                     _logger.LogInformation("User created a new account with password.");

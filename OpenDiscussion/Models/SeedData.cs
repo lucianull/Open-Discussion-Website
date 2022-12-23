@@ -22,38 +22,50 @@ namespace OpenDiscussion.Models
                 );
             var hasher = new PasswordHasher<ApplicationUser>();
 
-            context.Users.AddRange(
-            new ApplicationUser
-            {
-                Id = "88744e5d-7de5-482f-b3e8-e818a5605e15",
-                UserName = "admin@test.com",
-                EmailConfirmed = true,
-                NormalizedEmail = "ADMIN@TEST.COM",
-                Email = "admin@test.com",
-                NormalizedUserName = "ADMIN@TEST.COM",
-                PasswordHash = hasher.HashPassword(null, "Admin1!")
-            },
-            new ApplicationUser
-            {
-                Id = "88744e5d-7de5-482f-b3e8-e818a5605e16",
-                UserName = "moderator@test.com",
-                EmailConfirmed = true,
-                NormalizedEmail = "MODERATOR@TEST.COM",
-                Email = "moderator@test.com",
-                NormalizedUserName = "MODERATOR@TEST.COM",
-                PasswordHash = hasher.HashPassword(null, "Moderator1!")
-            },
-             new ApplicationUser
-             {
-                 Id = "88744e5d-7de5-482f-b3e8-e818a5605e17",
-                 UserName = "user@test.com",
-                 EmailConfirmed = true,
-                 NormalizedEmail = "USER@TEST.COM",
-                 Email = "user@test.com",
-                 NormalizedUserName = "USER@TEST.COM",
-                 PasswordHash = hasher.HashPassword(null, "User1!")
-             }
-             );
+                context.Users.AddRange(
+                new ApplicationUser
+                {
+                    Id = "88744e5d-7de5-482f-b3e8-e818a5605e15",
+                    DateOfCreation = DateTime.Now,
+                    CommentCount = 0,
+                    DiscussionCount = 0,
+                    UserName = "admin@test.com",
+                    EmailConfirmed = true,
+                    NormalizedEmail = "ADMIN@TEST.COM",
+                    DisplayName = "admin@test.com",
+                    Email = "admin@test.com",
+                    NormalizedUserName = "ADMIN@TEST.COM",
+                    PasswordHash = hasher.HashPassword(null, "Admin1!")
+                },
+                new ApplicationUser
+                {
+                    Id = "88744e5d-7de5-482f-b3e8-e818a5605e16",
+                    DateOfCreation = DateTime.Now,
+                    CommentCount = 0,
+                    DiscussionCount = 0,
+                    UserName = "moderator@test.com",
+                    EmailConfirmed = true,
+                    NormalizedEmail = "MODERATOR@TEST.COM",
+                    Email = "moderator@test.com",
+                    DisplayName = "moderator@test.com",
+                    NormalizedUserName = "MODERATOR@TEST.COM",
+                    PasswordHash = hasher.HashPassword(null, "Moderator1!")
+                },
+                 new ApplicationUser
+                 {
+                     Id = "88744e5d-7de5-482f-b3e8-e818a5605e17",
+                     DateOfCreation = DateTime.Now,
+                     CommentCount = 0,
+                     DiscussionCount = 0,
+                     UserName = "user@test.com",
+                     EmailConfirmed = true,
+                     NormalizedEmail = "USER@TEST.COM",
+                     DisplayName = "user@test.com",
+                     Email = "user@test.com",
+                     NormalizedUserName = "USER@TEST.COM",
+                     PasswordHash = hasher.HashPassword(null, "User1!")
+                 }
+                 ); ;
                 context.UserRoles.AddRange(
                  new IdentityUserRole<string>
                  {

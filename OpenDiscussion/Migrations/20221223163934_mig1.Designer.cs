@@ -12,8 +12,8 @@ using OpenDiscussion.Data;
 namespace OpenDiscussion.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20221222133959_profilestart")]
-    partial class profilestart
+    [Migration("20221223163934_mig1")]
+    partial class mig1
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -169,9 +169,18 @@ namespace OpenDiscussion.Migrations
                     b.Property<int>("AccessFailedCount")
                         .HasColumnType("int");
 
+                    b.Property<int?>("CommentCount")
+                        .HasColumnType("int");
+
                     b.Property<string>("ConcurrencyStamp")
                         .IsConcurrencyToken()
                         .HasColumnType("nvarchar(max)");
+
+                    b.Property<DateTime?>("DateOfCreation")
+                        .HasColumnType("datetime2");
+
+                    b.Property<int?>("DiscussionCount")
+                        .HasColumnType("int");
 
                     b.Property<string>("DisplayName")
                         .HasColumnType("nvarchar(max)");
@@ -206,9 +215,6 @@ namespace OpenDiscussion.Migrations
                     b.Property<bool>("PhoneNumberConfirmed")
                         .HasColumnType("bit");
 
-                    b.Property<int?>("ProfileId")
-                        .HasColumnType("int");
-
                     b.Property<string>("SecurityStamp")
                         .HasColumnType("nvarchar(max)");
 
@@ -228,8 +234,6 @@ namespace OpenDiscussion.Migrations
                         .IsUnique()
                         .HasDatabaseName("UserNameIndex")
                         .HasFilter("[NormalizedUserName] IS NOT NULL");
-
-                    b.HasIndex("ProfileId");
 
                     b.ToTable("AspNetUsers", (string)null);
                 });
@@ -321,28 +325,6 @@ namespace OpenDiscussion.Migrations
                     b.ToTable("Discussions");
                 });
 
-            modelBuilder.Entity("OpenDiscussion.Models.Profile", b =>
-                {
-                    b.Property<int>("ProfileId")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int");
-
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("ProfileId"), 1L, 1);
-
-                    b.Property<string>("Avatar")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("Description")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("UserId")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.HasKey("ProfileId");
-
-                    b.ToTable("Profiles");
-                });
-
             modelBuilder.Entity("OpenDiscussion.Models.Topic", b =>
                 {
                     b.Property<int>("TopicId")
@@ -423,9 +405,34 @@ namespace OpenDiscussion.Migrations
 
             modelBuilder.Entity("OpenDiscussion.Models.ApplicationUser", b =>
                 {
-                    b.HasOne("OpenDiscussion.Models.Profile", "Profile")
-                        .WithMany()
-                        .HasForeignKey("ProfileId");
+                    b.OwnsOne("OpenDiscussion.Models.Profile", "Profile", b1 =>
+                        {
+                            b1.Property<int>("ProfileId")
+                                .ValueGeneratedOnAdd()
+                                .HasColumnType("int");
+
+                            SqlServerPropertyBuilderExtensions.UseIdentityColumn(b1.Property<int>("ProfileId"), 1L, 1);
+
+                            b1.Property<string>("ApplicationUserId")
+                                .HasColumnType("nvarchar(450)");
+
+                            b1.Property<string>("Avatar")
+                                .HasColumnType("nvarchar(max)");
+
+                            b1.Property<string>("Description")
+                                .HasColumnType("nvarchar(max)");
+
+                            b1.HasKey("ProfileId");
+
+                            b1.HasIndex("ApplicationUserId")
+                                .IsUnique()
+                                .HasFilter("[ApplicationUserId] IS NOT NULL");
+
+                            b1.ToTable("Profiles");
+
+                            b1.WithOwner()
+                                .HasForeignKey("ApplicationUserId");
+                        });
 
                     b.Navigation("Profile");
                 });
@@ -437,7 +444,7 @@ namespace OpenDiscussion.Migrations
                         .HasForeignKey("DiscussionId");
 
                     b.HasOne("OpenDiscussion.Models.ApplicationUser", "User")
-                        .WithMany("Comments")
+                        .WithMany()
                         .HasForeignKey("UserId");
 
                     b.Navigation("User");
@@ -450,7 +457,7 @@ namespace OpenDiscussion.Migrations
                         .HasForeignKey("TopicId");
 
                     b.HasOne("OpenDiscussion.Models.ApplicationUser", "User")
-                        .WithMany("Discussions")
+                        .WithMany()
                         .HasForeignKey("UserId");
 
                     b.Navigation("User");
@@ -461,13 +468,6 @@ namespace OpenDiscussion.Migrations
                     b.HasOne("OpenDiscussion.Models.Category", null)
                         .WithMany("Topics")
                         .HasForeignKey("CategoryId");
-                });
-
-            modelBuilder.Entity("OpenDiscussion.Models.ApplicationUser", b =>
-                {
-                    b.Navigation("Comments");
-
-                    b.Navigation("Discussions");
                 });
 
             modelBuilder.Entity("OpenDiscussion.Models.Category", b =>

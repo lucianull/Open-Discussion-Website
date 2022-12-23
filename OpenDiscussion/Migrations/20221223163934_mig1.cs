@@ -5,7 +5,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 
 namespace OpenDiscussion.Migrations
 {
-    public partial class UserRoles : Migration
+    public partial class mig1 : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {
@@ -28,6 +28,10 @@ namespace OpenDiscussion.Migrations
                 columns: table => new
                 {
                     Id = table.Column<string>(type: "nvarchar(450)", nullable: false),
+                    DisplayName = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    DateOfCreation = table.Column<DateTime>(type: "datetime2", nullable: true),
+                    CommentCount = table.Column<int>(type: "int", nullable: true),
+                    DiscussionCount = table.Column<int>(type: "int", nullable: true),
                     UserName = table.Column<string>(type: "nvarchar(256)", maxLength: 256, nullable: true),
                     NormalizedUserName = table.Column<string>(type: "nvarchar(256)", maxLength: 256, nullable: true),
                     Email = table.Column<string>(type: "nvarchar(256)", maxLength: 256, nullable: true),
@@ -169,6 +173,27 @@ namespace OpenDiscussion.Migrations
                 });
 
             migrationBuilder.CreateTable(
+                name: "Profiles",
+                columns: table => new
+                {
+                    ProfileId = table.Column<int>(type: "int", nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
+                    ApplicationUserId = table.Column<string>(type: "nvarchar(450)", nullable: true),
+                    Description = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    Avatar = table.Column<string>(type: "nvarchar(max)", nullable: true)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Profiles", x => x.ProfileId);
+                    table.ForeignKey(
+                        name: "FK_Profiles_AspNetUsers_ApplicationUserId",
+                        column: x => x.ApplicationUserId,
+                        principalTable: "AspNetUsers",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
+                });
+
+            migrationBuilder.CreateTable(
                 name: "Topics",
                 columns: table => new
                 {
@@ -301,6 +326,13 @@ namespace OpenDiscussion.Migrations
                 column: "UserId");
 
             migrationBuilder.CreateIndex(
+                name: "IX_Profiles_ApplicationUserId",
+                table: "Profiles",
+                column: "ApplicationUserId",
+                unique: true,
+                filter: "[ApplicationUserId] IS NOT NULL");
+
+            migrationBuilder.CreateIndex(
                 name: "IX_Topics_CategoryId",
                 table: "Topics",
                 column: "CategoryId");
@@ -325,6 +357,9 @@ namespace OpenDiscussion.Migrations
 
             migrationBuilder.DropTable(
                 name: "Comments");
+
+            migrationBuilder.DropTable(
+                name: "Profiles");
 
             migrationBuilder.DropTable(
                 name: "AspNetRoles");

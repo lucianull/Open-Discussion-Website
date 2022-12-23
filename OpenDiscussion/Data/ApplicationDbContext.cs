@@ -1,6 +1,7 @@
 ﻿using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
 using OpenDiscussion.Models;
+using System.Runtime.CompilerServices;
 
 namespace OpenDiscussion.Data
 {
@@ -15,5 +16,25 @@ namespace OpenDiscussion.Data
         public DbSet <Discussion> Discussions { get; set; }
         public DbSet <Topic> Topics { get; set; }
         public DbSet <Profile> Profiles { get; set; }
+
+        protected override void OnModelCreating(ModelBuilder builder)
+        {
+            base.OnModelCreating(builder);
+
+            builder.Entity<ApplicationUser>()
+                .OwnsOne(u => u.Profile);
+
+            builder.Entity<ApplicationUser>()
+                .Property(u => u.DisplayName);
+
+            builder.Entity<ApplicationUser>()
+                .Property(u => u.DateOfCreation);
+
+            builder.Entity<ApplicationUser>()
+                .Property(u => u.CommentCount);
+
+            builder.Entity<ApplicationUser>()
+                .Property(u => u.DiscussionCount);
+        }
     }
 }
