@@ -7,7 +7,6 @@ namespace OpenDiscussion.Models
         [Key]
         public int ProfileId { get; set; }
         public string? ApplicationUserId { get; set; }
-
         public string? Description { get; set; }
 
         public string? Avatar { get; set; }   

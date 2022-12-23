@@ -1,4 +1,5 @@
 ﻿using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 using OpenDiscussion.Data;
 using OpenDiscussion.Models;
 
@@ -11,10 +12,11 @@ namespace OpenDiscussion.Controllers
         {
             db = context;
         }
-        /*public IActionResult Show(int id)
+        public IActionResult Show(int id) //id va fi id-ul profilului
         {
-            ApplicationUser currentUser = db.ApplicationUser.Where(prof => prof.UserId == id).First();
-            return View(profile);
-        }*/
+            Profile prof = db.Profiles.Find(id); //profilul userului
+            ApplicationUser currentUser = db.Users.Include("Profile").Where(u => u.Id == prof.ApplicationUserId).First();
+            return View(currentUser);
+        }
     }
 }

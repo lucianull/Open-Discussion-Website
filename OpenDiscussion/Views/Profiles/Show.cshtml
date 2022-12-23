@@ -1,7 +1,10 @@
-﻿@model OpenDiscussion.Models.Profile
+﻿@model OpenDiscussion.Models.ApplicationUser
 
-<div class="card">
-    <div class="card-header">@Model.</div>
-    <div class="card-body">Content</div>
-    <div class="card-footer">Footer</div>
+<div class="card" style="width: 18rem;">
+    <img src=@Model.Profile.Avatar class="card-img-top" alt="...">
+    <div class="card-body">
+        <h5 class="card-title">@Model.DisplayName</h5>
+        <p class="card-text">@Model.Profile.Description</p>
+        <a href="#" class="btn btn-primary">Edit your profile</a>
+    </div>
 </div>
