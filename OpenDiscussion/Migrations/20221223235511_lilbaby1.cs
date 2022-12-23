@@ -5,7 +5,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 
 namespace OpenDiscussion.Migrations
 {
-    public partial class mig1 : Migration
+    public partial class lilbaby1 : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {
@@ -189,8 +189,7 @@ namespace OpenDiscussion.Migrations
                         name: "FK_Profiles_AspNetUsers_ApplicationUserId",
                         column: x => x.ApplicationUserId,
                         principalTable: "AspNetUsers",
-                        principalColumn: "Id",
-                        onDelete: ReferentialAction.Cascade);
+                        principalColumn: "Id");
                 });
 
             migrationBuilder.CreateTable(

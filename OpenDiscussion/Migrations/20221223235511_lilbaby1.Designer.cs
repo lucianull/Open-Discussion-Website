@@ -12,8 +12,8 @@ using OpenDiscussion.Data;
 namespace OpenDiscussion.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20221223163934_mig1")]
-    partial class mig1
+    [Migration("20221223235511_lilbaby1")]
+    partial class lilbaby1
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -325,6 +325,32 @@ namespace OpenDiscussion.Migrations
                     b.ToTable("Discussions");
                 });
 
+            modelBuilder.Entity("OpenDiscussion.Models.Profile", b =>
+                {
+                    b.Property<int>("ProfileId")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("ProfileId"), 1L, 1);
+
+                    b.Property<string>("ApplicationUserId")
+                        .HasColumnType("nvarchar(450)");
+
+                    b.Property<string>("Avatar")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("Description")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.HasKey("ProfileId");
+
+                    b.HasIndex("ApplicationUserId")
+                        .IsUnique()
+                        .HasFilter("[ApplicationUserId] IS NOT NULL");
+
+                    b.ToTable("Profiles");
+                });
+
             modelBuilder.Entity("OpenDiscussion.Models.Topic", b =>
                 {
                     b.Property<int>("TopicId")
@@ -403,40 +429,6 @@ namespace OpenDiscussion.Migrations
                         .IsRequired();
                 });
 
-            modelBuilder.Entity("OpenDiscussion.Models.ApplicationUser", b =>
-                {
-                    b.OwnsOne("OpenDiscussion.Models.Profile", "Profile", b1 =>
-                        {
-                            b1.Property<int>("ProfileId")
-                                .ValueGeneratedOnAdd()
-                                .HasColumnType("int");
-
-                            SqlServerPropertyBuilderExtensions.UseIdentityColumn(b1.Property<int>("ProfileId"), 1L, 1);
-
-                            b1.Property<string>("ApplicationUserId")
-                                .HasColumnType("nvarchar(450)");
-
-                            b1.Property<string>("Avatar")
-                                .HasColumnType("nvarchar(max)");
-
-                            b1.Property<string>("Description")
-                                .HasColumnType("nvarchar(max)");
-
-                            b1.HasKey("ProfileId");
-
-                            b1.HasIndex("ApplicationUserId")
-                                .IsUnique()
-                                .HasFilter("[ApplicationUserId] IS NOT NULL");
-
-                            b1.ToTable("Profiles");
-
-                            b1.WithOwner()
-                                .HasForeignKey("ApplicationUserId");
-                        });
-
-                    b.Navigation("Profile");
-                });
-
             modelBuilder.Entity("OpenDiscussion.Models.Comment", b =>
                 {
                     b.HasOne("OpenDiscussion.Models.Discussion", null)
@@ -463,11 +455,23 @@ namespace OpenDiscussion.Migrations
                     b.Navigation("User");
                 });
 
+            modelBuilder.Entity("OpenDiscussion.Models.Profile", b =>
+                {
+                    b.HasOne("OpenDiscussion.Models.ApplicationUser", null)
+                        .WithOne("Profile")
+                        .HasForeignKey("OpenDiscussion.Models.Profile", "ApplicationUserId");
+                });
+
             modelBuilder.Entity("OpenDiscussion.Models.Topic", b =>
                 {
                     b.HasOne("OpenDiscussion.Models.Category", null)
                         .WithMany("Topics")
                         .HasForeignKey("CategoryId");
+                });
+
+            modelBuilder.Entity("OpenDiscussion.Models.ApplicationUser", b =>
+                {
+                    b.Navigation("Profile");
                 });
 
             modelBuilder.Entity("OpenDiscussion.Models.Category", b =>

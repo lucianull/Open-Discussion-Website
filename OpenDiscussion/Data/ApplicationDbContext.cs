@@ -22,7 +22,7 @@ namespace OpenDiscussion.Data
             base.OnModelCreating(builder);
 
             builder.Entity<ApplicationUser>()
-                .OwnsOne(u => u.Profile);
+                .HasOne(u => u.Profile);
 
             builder.Entity<ApplicationUser>()
                 .Property(u => u.DisplayName);
