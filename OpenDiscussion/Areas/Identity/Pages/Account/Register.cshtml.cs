@@ -24,6 +24,7 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
 using OpenDiscussion.Data;
 using OpenDiscussion.Models;
+using static System.Net.WebRequestMethods;
 
 namespace OpenDiscussion.Areas.Identity.Pages.Account
 {
@@ -123,6 +124,7 @@ namespace OpenDiscussion.Areas.Identity.Pages.Account
             user.DisplayName = user.UserName;
             Profile profile = new Profile();
             profile.ApplicationUserId = user.Id;
+            profile.Avatar = "https://st3.depositphotos.com/1767687/16607/v/450/depositphotos_166074422-stock-illustration-default-avatar-profile-icon-grey.jpg";
             db.Profiles.Add(profile);
             db.SaveChanges();
         }
