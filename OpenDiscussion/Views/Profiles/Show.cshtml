@@ -1,10 +1,32 @@
 ﻿@model OpenDiscussion.Models.ApplicationUser
 
+
 <div class="card" style="width: 18rem;">
-    <img src=@Model.Profile.Avatar class="card-img-top" alt="...">
+    <div class="w-15 h-15 p-3">
+        <img src="@Model.Profile.Avatar" class="img-fluid w-100 h-100" alt="...">
+    </div>
     <div class="card-body">
         <h5 class="card-title">@Model.DisplayName</h5>
         <p class="card-text">@Model.Profile.Description</p>
-        <a href="#" class="btn btn-primary">Edit your profile</a>
     </div>
+    <br />
+    <br />
 </div>
+
+</br>
+
+<form method="post" action ="/Profiles/Show/@Model.Profile.ProfileId">
+<div>
+    @Html.Label("Profile.Avatar")
+    </br>
+    @Html.TextBoxFor(m => m.Profile.Avatar);
+    </br>
+    </br>
+    @Html.Label("Profile.Description")
+    </br>
+    @Html.TextBoxFor(m => m.Profile.Description);
+    </br>
+    </br>
+    <button type="submit" class="btn btn-success">Save changes</button>
+</div>
+</form>
