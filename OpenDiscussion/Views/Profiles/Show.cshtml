@@ -1,32 +1,37 @@
 ﻿@model OpenDiscussion.Models.ApplicationUser
 
 
-<div class="card" style="width: 18rem;">
-    <div class="w-15 h-15 p-3">
-        <img src="@Model.Profile.Avatar" class="img-fluid w-100 h-100" alt="...">
+<div class="card" style="width:fit-content">
+    <div class="card-img-top p-3" style="width: 250px; height: 250px">
+        <img src="@Model.Profile.Avatar" class="img-fluid w-100 h-100 shadow" alt="...">
     </div>
     <div class="card-body">
         <h5 class="card-title">@Model.DisplayName</h5>
         <p class="card-text">@Model.Profile.Description</p>
+        <p>Member since: @Model.DateOfCreation</p>
+        <p>Posts: @Model.DiscussionCount</p>
+        <p>Comments: @Model.CommentCount</p>
     </div>
-    <br />
-    <br />
+    </br>
 </div>
 
-</br>
+</br> 
 
-<form method="post" action ="/Profiles/Show/@Model.Profile.ProfileId">
-<div>
-    @Html.Label("Profile.Avatar")
-    </br>
-    @Html.TextBoxFor(m => m.Profile.Avatar);
-    </br>
-    </br>
-    @Html.Label("Profile.Description")
-    </br>
-    @Html.TextBoxFor(m => m.Profile.Description);
-    </br>
-    </br>
-    <button type="submit" class="btn btn-success">Save changes</button>
-</div>
+@if (ViewBag.AfisareButoane == true)
+{
+<form method="post" action="/Profiles/Show/@Model.Profile.ProfileId">
+        <div>
+        @Html.Label("Profile.Avatar")
+        </br>
+        @Html.TextBoxFor(m => m.Profile.Avatar)
+        </br>
+        </br>
+        @Html.Label("Profile.Description")
+        </br>
+        @Html.TextBoxFor(m => m.Profile.Description)
+        </br>
+        </br>
+        <button type="submit" class="btn btn-success">Save changes</button>
+        </div>
 </form>
+}
