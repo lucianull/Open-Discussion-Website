@@ -11,11 +11,11 @@ namespace OpenDiscussion.Controllers
     {
         private readonly ApplicationDbContext db;
         private readonly UserManager<ApplicationUser> _userManager;
-        private readonly RoleManager<ApplicationUser> _roleManager;
+        private readonly RoleManager<IdentityRole> _roleManager;
         
         public ProfilesController(ApplicationDbContext context, 
                                 UserManager<ApplicationUser> userManager,
-                                RoleManager<ApplicationUser> roleManager)
+                                RoleManager<IdentityRole> roleManager)
         {
             db = context;
             _userManager = userManager;
@@ -34,7 +34,9 @@ namespace OpenDiscussion.Controllers
             Profile prof = db.Profiles.Find(id); //profilul userului
             var currentUser = db.Users.Include("Profile").Where(u => u.Id == prof.ApplicationUserId).First();
             if (prof.ApplicationUserId == _userManager.GetUserId(User) || User.IsInRole("Moderator") || User.IsInRole("Admin"))
-                ViewBag.AfisareButoane = 1;
+                ViewBag.AfisareButoane = true;
+            var DiscComments = db.Discussions.Include("Comments").Where(c => c.Comments.Where(com => com.UserId == prof.ApplicationUserId).Count() > 0);
+            ViewBag.DiscComments = DiscComments;
             return View(currentUser);
         }
         [Authorize(Roles = "User,Moderator,Admin")]
@@ -43,6 +45,7 @@ namespace OpenDiscussion.Controllers
         {
             Profile prof = db.Profiles.Find(id); //profilul userului
             var currentUser = db.Users.Include("Profile").Where(u => u.Id == prof.ApplicationUserId).First();
+            
             if (ModelState.IsValid)
             {
                 if (prof.ApplicationUserId == _userManager.GetUserId(User) || User.IsInRole("Moderator") || User.IsInRole("Admin"))

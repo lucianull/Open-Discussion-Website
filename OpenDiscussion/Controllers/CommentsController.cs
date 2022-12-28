@@ -63,10 +63,13 @@ namespace OpenDiscussion.Controllers
         [Authorize(Roles = "User,Moderator,Admin")]
         [HttpPost]
         public IActionResult Delete(int id) 
-        { 
+        {
+            string userId = _userManager.GetUserId(User);
             Comment comment = db.Comments.Find(id);
-            if (_userManager.GetUserId(User) == comment.UserId || User.IsInRole("Moderator") || User.IsInRole("Admin"))
+            if (userId == comment.UserId || User.IsInRole("Moderator") || User.IsInRole("Admin"))
             {
+                ApplicationUser user = db.Users.Find(userId);
+                user.CommentCount -= 1;
                 db.Comments.Remove(comment);
                 db.SaveChanges();
                 return Redirect("/Discussions/Show/" + comment.DiscussionId);

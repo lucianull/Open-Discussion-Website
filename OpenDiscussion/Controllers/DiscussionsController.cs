@@ -83,11 +83,15 @@ namespace OpenDiscussion.Controllers
         [HttpPost]
         public IActionResult New(int id, Discussion discussion)
         {
-            discussion.UserId = _userManager.GetUserId(User);
+            string userId = _userManager.GetUserId(User);
+            discussion.UserId = userId;
             discussion.Date = DateTime.Now;
             discussion.TopicId = id;
+
             if (ModelState.IsValid)
             {
+                ApplicationUser user = db.Users.Find(userId);
+                user.DiscussionCount += 1;
                 db.Discussions.Add(discussion);
                 db.SaveChanges();
 
@@ -103,8 +107,11 @@ namespace OpenDiscussion.Controllers
         public IActionResult Delete(int id)
         {
             Discussion discussion = db.Discussions.Include("Comments").Where(diss => diss.DiscussionId == id).First();
-            if (_userManager.GetUserId(User) == discussion.UserId || User.IsInRole("Moderator") || User.IsInRole("Admin"))
+            string userId = _userManager.GetUserId(User);
+            if (userId == discussion.UserId || User.IsInRole("Moderator") || User.IsInRole("Admin"))
             {
+                ApplicationUser user = db.Users.Find(userId);
+                user.DiscussionCount -= 1;
                 db.Discussions.Remove(discussion);
                 db.SaveChanges();
                 return RedirectToAction("Index", new { id = discussion.TopicId });
@@ -132,10 +139,13 @@ namespace OpenDiscussion.Controllers
         [HttpPost]
         public IActionResult Show([FromForm] Comment comment)
         {
-            comment.UserId = _userManager.GetUserId(User);
+            string userId = _userManager.GetUserId(User);
+            comment.UserId = userId;
             comment.Date = DateTime.Now;
             if (ModelState.IsValid)
-            { 
+            {
+                ApplicationUser user = db.Users.Find(userId);
+                user.CommentCount += 1;
                 db.Comments.Add(comment);
                 db.SaveChanges();
                 return RedirectToAction("Show", new { id = comment.DiscussionId });
