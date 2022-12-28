@@ -11,13 +11,39 @@
 <br />
 <br />
 
+
+
 @if (TempData.ContainsKey("Message"))
 {
     <p>@TempData["Message"]</p>
     <br/>
 }
+
 @foreach(OpenDiscussion.Models.Discussion discussion in ViewBag.Discussions) {
     <a href="/Discussions/Show/@discussion.DiscussionId" class="text-decoration-none text-muted">
         @Html.Partial("Card", discussion)
     </a>
 }
+
+<div>
+    <nav aria-label="Page navigation example">
+        <ul class="pagination">
+            <li class="page-item">
+                <a class="page-link" href="/Discussions/Index/@ViewBag.DiscussionTopicId?page=1" aria-label="Previous">
+                    <span aria-hidden="true">&laquo;</span>
+                </a>
+            </li>
+            @for (int i = 1; i <= ViewBag.lastPage; i++)
+            {
+                <li class="page-item">
+                    <a class="page-link" href="/Discussions/Index/@ViewBag.DiscussionTopicId?page=@i">@(i)</a>
+                </li>
+            }
+            <li class="page-item">
+                <a class="page-link" href="/Discussions/Index/@ViewBag.DiscussionTopicId?page=@(ViewBag.lastPage)" arialabel="Next">
+                    <span aria-hidden="true">&raquo;</span>
+                </a>
+            </li>
+        </ul>
+    </nav>
+</div>

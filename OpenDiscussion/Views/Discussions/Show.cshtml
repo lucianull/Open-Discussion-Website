@@ -3,27 +3,27 @@
 @if (TempData.ContainsKey("Message"))
 {
     <p>@TempData["Message"]</p>
-    <br/>
+    <br />
 }
-<br/>
+<br />
 <div>
     <a class="btn btn-success" href="/Discussions/Index/@Model.TopicId">Inapoi</a>
 </div>
-<br/>
-<br/>
+<br />
+<br />
 
 <div class="card">
     <div class="card-body">
         <h3>@Model.Title</h3>
         <div class="w-75 p-3" style="background-color: #eee;">@Model.Content</div>
-        <br/>
+        <br />
         <a href="/Profiles/GetId/@Model.User.Id" style="text-decoration:none; color:black">
-        <small>@Model.User.UserName</small>
+            <small>@Model.User.UserName</small>
         </a>
     </div>
 </div>
 
-@foreach (var comment in Model.Comments)
+@foreach (var comment in ViewBag.discussionPaginated)
 {
     <div class="container">
         <div class="row">
@@ -33,8 +33,8 @@
                     <p>@comment.Content</p>
                     <small>@comment.Date</small>
                     <a href="/Profiles/GetId/@comment.User.Id" style="text-decoration: none; color:black">
-                    <small>@comment.User.UserName</small>
-                    <img src="@comment.User.Profile.Avatar" style="width: 50px; height: 50px">
+                        <small>@comment.User.UserName</small>
+                        <img src="@comment.User.Profile.Avatar" style="width: 50px; height: 50px">
                     </a>
                 </div>
                 <br />
@@ -51,19 +51,45 @@
                 }
             </div>
             <div class="col-md-2"></div>
-            
+
         </div>
-        
     </div>
     <br />
 }
+<div class="container">
+    <div class="row">
+        <div class="col-md-2"></div>
+        <div class="col-md-8">
+            <nav aria-label="Page navigation example">
+                <ul class="pagination">
+                    <li class="page-item">
+                        <a class="page-link" href="/Discussions/Show/@Model.DiscussionId?page=1" aria-label="Previous">
+                            <span aria-hidden="true">&laquo;</span>
+                        </a>
+                    </li>
+                    @for (int i = 1; i <= ViewBag.lastPage; i++)
+                    {
+                        <li class="page-item">
+                            <a class="page-link" href="/Discussions/Show/@Model.DiscussionId?page=@i">@(i)</a>
+                        </li>
+                    }
+                    <li class="page-item">
+                        <a class="page-link" href="/Discussions/Show/@Model.DiscussionId?page=@(ViewBag.lastPage)" arialabel="Next">
+                            <span aria-hidden="true">&raquo;</span>
+                        </a>
+                    </li>
+                </ul>
+            </nav>
+        </div>
+    </div>
+</div>
 
 <div class="container">
     <div class="row">
         <div class="col-md-2"></div>
         <div class="col-md-8">
             <div class="card">
-                <form method="post" action ="/Discussions/Show/@Model.DiscussionId">
+                <form method="post" action="/Discussions/Show/@Model.DiscussionId">
                     <div class="card-body">
                         <input type="hidden" name="DiscussionId" value="@Model.DiscussionId" />
                         <label>Continut comentariu</label>
@@ -72,7 +98,7 @@
                         <textarea class="form-control" name="Content"></textarea>
                         <br /><br />
                         <button class="btn btn-success" type="submit">Adauga comentariu</button>
-                    </div>    
+                    </div>
                 </form>
             </div>
         </div>

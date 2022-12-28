@@ -26,13 +26,25 @@ namespace OpenDiscussion.Controllers
         {
             var discussions = db.Discussions.Include("User").Include("User.Profile").Where(disc => disc.TopicId == id);
             var topicCount = db.Topics.Where(top => top.TopicId == id).Count();
+
+            int _perpage = 5, offset =0;
+            int countItems = discussions.Count();
+            int currentPage = Convert.ToInt32(HttpContext.Request.Query["page"]);
+            int lastpage = countItems / _perpage + Convert.ToInt32(countItems % _perpage != 0);
+            ViewBag.lastpage = lastpage;
+            if (currentPage != 0)
+            {
+                offset = (currentPage - 1) * _perpage;
+            }
+            var discussionsPaginated = discussions.Skip(offset).Take(_perpage);
+
             if (topicCount > 0)
             { 
                 var topic = db.Topics.Where(top => top.TopicId == id).First();
                 ViewBag.DiscussionCategoryId = topic.CategoryId;
             }
             ViewBag.DiscussionTopicId = id;
-            ViewBag.Discussions = discussions;
+            ViewBag.Discussions = discussionsPaginated;
             SetAccessRights();
             return View();
         }
@@ -134,12 +146,24 @@ namespace OpenDiscussion.Controllers
                                     .Include("Comments.User.Profile")
                                     .Where(disc => disc.DiscussionId == id)
                                     .First();
+
+            int _perpage = 5, offset = 0;
+            int countComms = db.Comments.Where(com => com.DiscussionId == id).Count();
+            int currentPage = Convert.ToInt32(HttpContext.Request.Query["page"]);
+            int lastpage = countComms / _perpage + Convert.ToInt32(countComms % _perpage != 0);
+            ViewBag.lastpage = lastpage;
+            if (currentPage != 0)
+            {
+                offset = (currentPage - 1) * _perpage;
+            }
+            ViewBag.discussionPaginated = discussion.Comments.Skip(offset).Take(_perpage);
+
             SetAccessRights();
             return View(discussion);
         }
         [Authorize(Roles = "User,Moderator,Admin")]
         [HttpPost]
-        public IActionResult Show([FromForm] Comment comment)
+        public IActionResult Show(int id, [FromForm] Comment comment)
         {
             string userId = _userManager.GetUserId(User);
             comment.UserId = userId;
@@ -161,6 +185,17 @@ namespace OpenDiscussion.Controllers
                                                       .Include("Comments.User.Profile")
                                                       .Where(disc => disc.DiscussionId == comment.DiscussionId)
                                                       .First();
+                int _perpage = 5, offset = 0;
+                int countComms = db.Comments.Where(com => com.DiscussionId == id).Count();
+                int currentPage = Convert.ToInt32(HttpContext.Request.Query["page"]);
+                int lastpage = countComms / _perpage + Convert.ToInt32(countComms % _perpage != 0);
+                ViewBag.lastpage = lastpage;
+                if (currentPage != 0)
+                {
+                    offset = (currentPage - 1) * _perpage;
+                }
+                ViewBag.discussionPaginated = discussion.Comments.Skip(offset).Take(_perpage);
+                SetAccessRights();
                 return View(discussion);
             }
         }
