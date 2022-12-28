@@ -129,6 +129,7 @@ namespace OpenDiscussion.Controllers
             Discussion discussion = db.Discussions
                                     .Include("Comments")
                                     .Include("User")
+                                    .Include("User.Profile")
                                     .Include("Comments.User")
                                     .Where(disc => disc.DiscussionId == id)
                                     .First();
