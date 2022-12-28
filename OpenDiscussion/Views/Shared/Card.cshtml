@@ -4,6 +4,7 @@
         <h3>@Model.Title</h3>
         <div class="w-75 p-3" style="background-color: #eee;">@Model.Content</div>
         <h5>@Model.Date</h5>
+        <div style="float: right"><small style="text-align: bottom">@Model.User.UserName</small><img src="@Model.User.Profile.Avatar" style="width: 50px; height: 50px"</img></div>
     </div>
     @if (ViewBag.ShowButtons == true || ViewBag.CurrentUser == Model.UserId)
     {
@@ -12,10 +13,9 @@
             <form method="post" action="/Discussions/Delete/@Model.DiscussionId">
 
                 <button class="btn btn-outline-danger p-2" type="submit"><i class="bi bi-trash">Sterge discutie</i></button>
-
             </form>
         </div>
     }
     <br/>
-    <div><i class="bi bi-person"</i>@Model.User.UserName</div>
+    
 </div>

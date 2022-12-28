@@ -24,7 +24,7 @@ namespace OpenDiscussion.Controllers
         [Authorize(Roles = "User,Moderator,Admin")]
         public IActionResult Index(int id)
         {
-            var discussions = db.Discussions.Include("User").Where(disc => disc.TopicId == id);
+            var discussions = db.Discussions.Include("User").Include("User.Profile").Where(disc => disc.TopicId == id);
             var topicCount = db.Topics.Where(top => top.TopicId == id).Count();
             if (topicCount > 0)
             { 

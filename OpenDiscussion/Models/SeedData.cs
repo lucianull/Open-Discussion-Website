@@ -82,7 +82,15 @@ namespace OpenDiscussion.Models
                     RoleId = "0f0190ec-276c-41d7-9398-25c4e1714483",
                     UserId = "88744e5d-7de5-482f-b3e8-e818a5605e17"
                 });
-
+                Profile profileAdmin = new Profile();
+                profileAdmin.ApplicationUserId = "88744e5d-7de5-482f-b3e8-e818a5605e17";
+                Profile profileMod = new Profile();
+                profileMod.ApplicationUserId = "88744e5d-7de5-482f-b3e8-e818a5605e16";
+                Profile profileUser = new Profile();
+                profileUser.ApplicationUserId = "88744e5d-7de5-482f-b3e8-e818a5605e15";
+                context.Profiles.Add(profileAdmin);
+                context.Profiles.Add(profileMod);
+                context.Profiles.Add(profileUser);
                 context.SaveChanges();
             }
         }
