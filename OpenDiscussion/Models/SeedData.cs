@@ -84,10 +84,13 @@ namespace OpenDiscussion.Models
                 });
                 Profile profileAdmin = new Profile();
                 profileAdmin.ApplicationUserId = "88744e5d-7de5-482f-b3e8-e818a5605e17";
+                profileAdmin.Avatar = "https://st3.depositphotos.com/1767687/16607/v/450/depositphotos_166074422-stock-illustration-default-avatar-profile-icon-grey.jpg";
                 Profile profileMod = new Profile();
                 profileMod.ApplicationUserId = "88744e5d-7de5-482f-b3e8-e818a5605e16";
+                profileMod.Avatar = "https://st3.depositphotos.com/1767687/16607/v/450/depositphotos_166074422-stock-illustration-default-avatar-profile-icon-grey.jpg";
                 Profile profileUser = new Profile();
                 profileUser.ApplicationUserId = "88744e5d-7de5-482f-b3e8-e818a5605e15";
+                profileUser.Avatar = "https://st3.depositphotos.com/1767687/16607/v/450/depositphotos_166074422-stock-illustration-default-avatar-profile-icon-grey.jpg";
                 context.Profiles.Add(profileAdmin);
                 context.Profiles.Add(profileMod);
                 context.Profiles.Add(profileUser);

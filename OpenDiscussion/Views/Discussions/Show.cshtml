@@ -17,7 +17,9 @@
         <h3>@Model.Title</h3>
         <div class="w-75 p-3" style="background-color: #eee;">@Model.Content</div>
         <br/>
+        <a href="/Profiles/GetId/@Model.User.Id" style="text-decoration:none; color:black">
         <small>@Model.User.UserName</small>
+        </a>
     </div>
 </div>
 
@@ -30,8 +32,10 @@
                 <div>
                     <p>@comment.Content</p>
                     <small>@comment.Date</small>
+                    <a href="/Profiles/GetId/@comment.User.Id" style="text-decoration: none; color:black">
                     <small>@comment.User.UserName</small>
                     <img src="@comment.User.Profile.Avatar" style="width: 50px; height: 50px">
+                    </a>
                 </div>
                 <br />
                 @if (ViewBag.ShowButtons == true || comment.UserId == ViewBag.CurrentUser)

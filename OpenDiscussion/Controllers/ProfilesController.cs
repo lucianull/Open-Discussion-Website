@@ -35,7 +35,7 @@ namespace OpenDiscussion.Controllers
             var currentUser = db.Users.Include("Profile").Where(u => u.Id == prof.ApplicationUserId).First();
             if (prof.ApplicationUserId == _userManager.GetUserId(User) || User.IsInRole("Moderator") || User.IsInRole("Admin"))
                 ViewBag.AfisareButoane = true;
-            var DiscComments = db.Discussions.Include("Comments").Where(c => c.Comments.Where(com => com.UserId == prof.ApplicationUserId).Count() > 0);
+            var DiscComments = db.Discussions.Include("Comments").Where(c => c.Comments.Where(com => com.UserId == prof.ApplicationUserId).Count() > 0 || c.UserId == prof.ApplicationUserId);
             ViewBag.DiscComments = DiscComments;
             return View(currentUser);
         }
@@ -62,7 +62,7 @@ namespace OpenDiscussion.Controllers
             }
             if (prof.ApplicationUserId == _userManager.GetUserId(User) || User.IsInRole("Moderator") || User.IsInRole("Admin"))
                 ViewBag.AfisareButoane = true;
-            var DiscComments = db.Discussions.Include("Comments").Where(c => c.Comments.Where(com => com.UserId == prof.ApplicationUserId).Count() > 0);
+            var DiscComments = db.Discussions.Include("Comments").Where(c => c.Comments.Where(com => com.UserId == prof.ApplicationUserId).Count() > 0 || c.UserId == prof.ApplicationUserId);
             ViewBag.DiscComments = DiscComments;
             return View(currentUser);
         }
