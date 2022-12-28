@@ -131,6 +131,7 @@ namespace OpenDiscussion.Controllers
                                     .Include("User")
                                     .Include("User.Profile")
                                     .Include("Comments.User")
+                                    .Include("Comments.User.Profile")
                                     .Where(disc => disc.DiscussionId == id)
                                     .First();
             SetAccessRights();
@@ -155,7 +156,9 @@ namespace OpenDiscussion.Controllers
             {
                 Discussion discussion = db.Discussions.Include("Comments")
                                                       .Include("User")
+                                                      .Include("User.Profile")
                                                       .Include("Comments.User")
+                                                      .Include("Comments.User.Profile")
                                                       .Where(disc => disc.DiscussionId == comment.DiscussionId)
                                                       .First();
                 return View(discussion);

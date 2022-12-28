@@ -60,6 +60,8 @@ namespace OpenDiscussion.Controllers
                     return Redirect("/Categories/Index");
                 }
             }
+            if (prof.ApplicationUserId == _userManager.GetUserId(User) || User.IsInRole("Moderator") || User.IsInRole("Admin"))
+                ViewBag.AfisareButoane = true;
             var DiscComments = db.Discussions.Include("Comments").Where(c => c.Comments.Where(com => com.UserId == prof.ApplicationUserId).Count() > 0);
             ViewBag.DiscComments = DiscComments;
             return View(currentUser);
