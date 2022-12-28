@@ -60,6 +60,8 @@ namespace OpenDiscussion.Controllers
                     return Redirect("/Categories/Index");
                 }
             }
+            var DiscComments = db.Discussions.Include("Comments").Where(c => c.Comments.Where(com => com.UserId == prof.ApplicationUserId).Count() > 0);
+            ViewBag.DiscComments = DiscComments;
             return View(currentUser);
         }
     }
