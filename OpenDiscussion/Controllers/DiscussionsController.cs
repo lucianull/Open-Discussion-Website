@@ -5,6 +5,7 @@ using Microsoft.EntityFrameworkCore;
 using OpenDiscussion.Data;
 using OpenDiscussion.Models;
 using System.Data;
+using System.Drawing.Printing;
 
 namespace OpenDiscussion.Controllers
 {
@@ -13,6 +14,7 @@ namespace OpenDiscussion.Controllers
         private readonly ApplicationDbContext db;
         private readonly UserManager<ApplicationUser> _userManager;
         private readonly RoleManager<IdentityRole> _roleManager;
+        public const string SessionKeySort = "";
         public DiscussionsController(ApplicationDbContext context,
                                      UserManager<ApplicationUser> userManager,
                                      RoleManager<IdentityRole> roleManager)
@@ -27,10 +29,11 @@ namespace OpenDiscussion.Controllers
         public IActionResult Sorted(int id)
         {
             string radioButtonValue = Request.Form["Sort"].ToString();
-            return RedirectToAction("Index", new {id = id, fieldsetvalue = radioButtonValue });
+            HttpContext.Session.SetString(SessionKeySort, radioButtonValue);
+            return RedirectToAction("Index", new {id = id });
         }
         [Authorize(Roles = "User,Moderator,Admin")]
-        public IActionResult Index(int id, string fieldsetvalue = "null")
+        public IActionResult Index(int id)
         {
             var discussions1 = db.Discussions.Include("User").Include("User.Profile")
                     .Where(disc => disc.TopicId == id);
@@ -38,15 +41,11 @@ namespace OpenDiscussion.Controllers
                 disc.CommentsCount = db.Comments.Where(d => d.DiscussionId == disc.DiscussionId).Count();
 
             IEnumerable<Discussion> discussions;
-            
-            if (fieldsetvalue == "Comments")
-            {
+
+            if (HttpContext.Session.GetString(SessionKeySort) == "Comments") 
                 discussions = discussions1.AsEnumerable().OrderByDescending(d => d.CommentsCount);
-            }
-            else if (fieldsetvalue == "Date")
-            {
+            else if (HttpContext.Session.GetString(SessionKeySort) == "Date")
                 discussions = discussions1.AsEnumerable().OrderByDescending(d => d.Date);
-            }
             else
                 discussions = discussions1.AsEnumerable();
 

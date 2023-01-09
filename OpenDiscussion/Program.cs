@@ -17,7 +17,17 @@ builder.Services.AddDefaultIdentity<ApplicationUser>(options => options.SignIn.R
 
 builder.Services.AddControllersWithViews();
 
+builder.Services.AddSession(options =>
+{
+    options.IdleTimeout = TimeSpan.FromSeconds(10);
+    options.Cookie.HttpOnly = true;
+    options.Cookie.IsEssential = true;
+});
+
 var app = builder.Build();
+
+builder.Services.AddDistributedMemoryCache();
+
 
 using (var scope = app.Services.CreateScope())
 {
@@ -44,7 +54,7 @@ app.UseRouting();
 
 app.UseAuthentication();
 app.UseAuthorization();
-
+app.UseSession();
 //app.MapControllerRoute(
 //    name: "default",
 //    pattern: "{controller=Home" +
