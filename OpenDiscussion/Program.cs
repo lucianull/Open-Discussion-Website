@@ -55,14 +55,19 @@ app.UseRouting();
 app.UseAuthentication();
 app.UseAuthorization();
 app.UseSession();
+
+app.MapControllerRoute(name: "default",
+    pattern: "{controller}/{action}/{id?}",
+    defaults: new { controller = "Home", action = "Index" });
+
 //app.MapControllerRoute(
 //    name: "default",
 //    pattern: "{controller=Home" +
 //    "}/{action=Index}");
 
-app.MapControllerRoute(
-    name: "default",
-    pattern: "{controller=categories}/{action=index}/{id?}");
+//app.MapControllerRoute(
+//    name: "default",
+//    pattern: "{controller=categories}/{action=index}/{id?}");
 
 app.MapRazorPages();
 
