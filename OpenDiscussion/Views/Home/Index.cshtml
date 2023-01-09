@@ -15,19 +15,22 @@
 </div>
 <br/>
 
-<div class="container">
+<div class="container" style="margin-left:8%">
     @foreach (var item in ViewBag.DisplayArticles)
     {
-        <div class="row">
-            <div class="bg-light rounded-3 p-5 mb-4">
-                <div class="row">
-                    <div class="cool-md-8">
-                        <h1 class="font-roboto fw-bold">@item.Title</h1>
-                        <h3 class="font-montserrat">@item.Content</h3>
-                    </div>
-                </div>
+        <div class="row bg-light rounded-3 container-item col p-5 mb-4 row">
+            <div class="cool-md-8">
+                <h8 class="text-muted">@item.categoryName <i class="bi bi-arrow-right"></i> @item.topicName</h8>
+                <h3 class="font-roboto fw-bold"><i class="col bi bi-chat"></i>@item.discussionTitle</h3>
+                <h5 class="font-montserrat">@item.discussionContent</h5>
+            </div>
+            <br/>
+            <div class="d-inline">
+                <h8 class="text-muted">@item.nrComments Comentarii</h8>
+                <h8 class="text-muted">@item.discussionDate</h8>
             </div>
         </div>
+        <br/>
     }
 </div>
 
