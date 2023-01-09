@@ -1,4 +1,5 @@
-﻿using OpenDiscussion.Data;
+﻿using Microsoft.AspNetCore.Mvc.Rendering;
+using OpenDiscussion.Data;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 
@@ -22,5 +23,7 @@ namespace OpenDiscussion.Models
         public virtual ApplicationUser? User { get; set; }
         [NotMapped]
         public int CommentsCount { get; set; }
+        [NotMapped]
+        public IEnumerable<SelectListItem> AllTopics { get; set; }
     }
 }

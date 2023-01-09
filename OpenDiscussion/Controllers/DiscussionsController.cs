@@ -1,6 +1,7 @@
 ﻿using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using OpenDiscussion.Data;
 using OpenDiscussion.Models;
@@ -222,6 +223,46 @@ namespace OpenDiscussion.Controllers
                 ViewBag.discussionPaginated = discussion.Comments.Skip(offset).Take(_perpage);
                 SetAccessRights();
                 return View(discussion);
+            }
+        }
+        [Authorize(Roles = "Moderator,Admin")]
+        public IEnumerable<SelectListItem> GetTopics()
+        {
+        var selectList = new List<SelectListItem>();
+        var topics = from top in db.Topics select top;
+        foreach(var topic in topics)
+            {
+                selectList.Add(new SelectListItem
+                {
+                    Value = topic.TopicId.ToString(),
+                    Text = topic.Name
+                }); 
+            }
+            return selectList;
+        }
+        [Authorize(Roles ="Moderator,Admin")]
+        public IActionResult Move(int id)
+        {
+            Discussion disc = db.Discussions.Find(id);
+            disc.AllTopics = GetTopics();
+            return View(disc);
+        }
+        [Authorize(Roles = "Moderator,Admin")]
+        [HttpPost]
+        public IActionResult Move(int id, [FromForm] Discussion requestDiscussion )
+        {
+            var topicId = Convert.ToInt32(requestDiscussion.TopicId);
+            var disc = db.Discussions.Find(id);
+            var TopicIdOld = disc.TopicId;
+            try
+            {
+                disc.TopicId = topicId;
+                db.SaveChanges();
+                return RedirectToAction("Index", new { id = TopicIdOld });
+            }
+            catch(Exception ex)
+            {
+                return RedirectToAction("Move", new { id = id });
             }
         }
         private void SetAccessRights()
