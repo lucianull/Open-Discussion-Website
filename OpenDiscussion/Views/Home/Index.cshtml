@@ -2,22 +2,38 @@
     ViewData["Title"] = "Home Page";
 }
 
+<style>
+    .shade {
+        background-color: aqua;
+    }
+
+    .body-container {
+        /*remove the container default padding attribute*/
+        padding-left: 0px !important;
+        padding-right: 0px !important;
+        /*increase width as per your need*/
+        max-width: 100%;
+    }
+</style>
+
+<div class="row">
+    <img src="~/Image/logo.png" class="img-responsive ms-0" />
+</div>
+
 <div class="container">
     <div class="row">
-        <div class="bg-light rounded-3 p-5 mb-4">
-            <div class="col-md-4">
-                <img src="/Image/logo.png" class="img-ffluid align-items-center justify-content-center" />
-            </div>
-        </div>
+        <img src="~/Image/logo.png" class="img-responsive ms-0" />
     </div>
-    <div class="row">
-        <div class="bg-light rounded-3 p-5 mb-4">
-            <div class="row">
-                <div class="cool-md-8">
-                    <h1 class="font-roboto fw-bold">@ViewBag.DisplayArticle.Title</h1>
-                    <h3 class="font-montserrat">@ViewBag.DisplayArticle.Content</h3>
-                </div>
+</div>
+<div class="row">
+    <div class="bg-light rounded-3 p-5 mb-4">
+        <div class="row">
+            <div class="cool-md-8">
+                <h1 class="font-roboto fw-bold">@ViewBag.DisplayArticle.Title</h1>
+                <h3 class="font-montserrat">@ViewBag.DisplayArticle.Content</h3>
             </div>
         </div>
     </div>
 </div>
+</div>
+
