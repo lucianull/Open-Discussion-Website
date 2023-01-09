@@ -11,7 +11,11 @@
 <br />
 <br />
 
-
+<form method="post" name="SortedData" action="/Discussions/Sorted/@ViewBag.DiscussionTopicId">
+    <input type="radio" name="Sort" value="Date" checked/> Data
+    <input type="radio" name="Sort" value="Comments"/>Nr.Comentarii
+    <input type="submit" value="Aplica filtrul" />
+</form>
 
 @if (TempData.ContainsKey("Message"))
 {
@@ -40,6 +44,7 @@
                 </li>
             }
             <li class="page-item">
+
                 <a class="page-link" href="/Discussions/Index/@ViewBag.DiscussionTopicId?page=@(ViewBag.lastPage)" arialabel="Next">
                     <span aria-hidden="true">&raquo;</span>
                 </a>

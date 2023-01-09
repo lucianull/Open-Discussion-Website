@@ -21,14 +21,39 @@ namespace OpenDiscussion.Controllers
             _userManager = userManager;
             _roleManager = roleManager;
         }
-        [Authorize(Roles = "User,Moderator,Admin")]
-        public IActionResult Index(int id)
-        {
-            var discussions = db.Discussions.Include("User").Include("User.Profile").Where(disc => disc.TopicId == id);
-            var topicCount = db.Topics.Where(top => top.TopicId == id).Count();
 
+        [Authorize(Roles = "User,Moderator,Admin")]
+        [HttpPost]
+        public IActionResult Sorted(int id)
+        {
+            string radioButtonValue = Request.Form["Sort"].ToString();
+            return RedirectToAction("Index", new {id = id, fieldsetvalue = radioButtonValue });
+        }
+        [Authorize(Roles = "User,Moderator,Admin")]
+        public IActionResult Index(int id, string fieldsetvalue = "null")
+        {
+            var discussions1 = db.Discussions.Include("User").Include("User.Profile")
+                    .Where(disc => disc.TopicId == id);
+            foreach (var disc in discussions1.AsEnumerable())
+                disc.CommentsCount = db.Comments.Where(d => d.DiscussionId == disc.DiscussionId).Count();
+
+            IEnumerable<Discussion> discussions;
+            
+            if (fieldsetvalue == "Comments")
+            {
+                discussions = discussions1.AsEnumerable().OrderByDescending(d => d.CommentsCount);
+            }
+            else if (fieldsetvalue == "Date")
+            {
+                discussions = discussions1.AsEnumerable().OrderByDescending(d => d.Date);
+            }
+            else
+                discussions = discussions1.AsEnumerable();
+
+            var topicCount = db.Topics.Where(top => top.TopicId == id).Count();
             int _perpage = 5, offset =0;
-            int countItems = discussions.Count();
+            int countItems = db.Discussions.Where(disc => disc.TopicId == id).Count();
+
             int currentPage = Convert.ToInt32(HttpContext.Request.Query["page"]);
             int lastpage = countItems / _perpage + Convert.ToInt32(countItems % _perpage != 0);
             ViewBag.lastpage = lastpage;
@@ -36,6 +61,7 @@ namespace OpenDiscussion.Controllers
             {
                 offset = (currentPage - 1) * _perpage;
             }
+
             var discussionsPaginated = discussions.Skip(offset).Take(_perpage);
 
             if (topicCount > 0)

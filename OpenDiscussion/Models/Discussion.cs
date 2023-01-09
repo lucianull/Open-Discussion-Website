@@ -1,4 +1,6 @@
-﻿using System.ComponentModel.DataAnnotations;
+﻿using OpenDiscussion.Data;
+using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
 
 namespace OpenDiscussion.Models
 {
@@ -18,5 +20,7 @@ namespace OpenDiscussion.Models
         public virtual ICollection<Comment>? Comments { get; set; }
         public string? UserId { get; set; }
         public virtual ApplicationUser? User { get; set; }
+        [NotMapped]
+        public int CommentsCount { get; set; }
     }
 }
