@@ -9,13 +9,17 @@ namespace OpenDiscussion.Controllers
     public class HomeController : Controller
     {
         private readonly ILogger<HomeController> _logger;
+
         private readonly ApplicationDbContext db;
+
         private readonly UserManager <ApplicationUser> _userManager;
+
         private readonly RoleManager < IdentityRole > _roleManager;
-        public HomeController(ApplicationDbContext context,
-            ILogger<HomeController> logger,
+        public HomeController(
+            ApplicationDbContext context,
             UserManager <ApplicationUser> userManager,
-            RoleManager<IdentityRole> roleManager)
+            RoleManager<IdentityRole> roleManager,
+            ILogger<HomeController> logger)
         {
             db = context;
             _userManager = userManager;
@@ -28,10 +32,13 @@ namespace OpenDiscussion.Controllers
             if (User.Identity.IsAuthenticated)
                 return RedirectToAction("Index", "Categories");
             var Discussions = (from discussion in db.Discussions select discussion);
-            Random random= new Random();
-            int DiscussionIndex = random.Next(1, Discussions.Count());
-            Discussion discutie = Discussions.Skip(DiscussionIndex).Take(1).First();
-            ViewBag.DisplayArticle = discutie;
+            int N = Discussions.Count();
+            Random random = new Random();
+            List<Discussion> discutii = new List<Discussion>();
+            discutii.Add(Discussions.Skip(random.Next(0, N)).Take(1).First());
+            discutii.Add(Discussions.Skip(random.Next(0, N)).Take(1).First());
+            discutii.Add(Discussions.Skip(random.Next(0, N)).Take(1).First());
+            ViewBag.DisplayArticles = discutii;
             return View();
         }
 
