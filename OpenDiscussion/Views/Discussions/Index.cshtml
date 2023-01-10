@@ -11,6 +11,13 @@
 <br />
 <br />
 
+<form method="GET">
+    <div class="input-group mb-3">
+        <input type="text" class="form-control" placeholder="Cauta discutii sau cuvinte cheie" name="search" value="@ViewBag.SearchString" />
+        <button class="btn btn-outline-success" type="submit">Search</button>
+    </div>
+</form>
+
 <form method="post" id="SortedData" action="/Discussions/Sorted/@ViewBag.DiscussionTopicId">
     <input type="radio" name="Sort" value="Date"/> Data
     <input type="radio" name="Sort" value="Comments"/>Nr.Comentarii

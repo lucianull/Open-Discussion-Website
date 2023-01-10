@@ -38,6 +38,22 @@ namespace OpenDiscussion.Controllers
         {
             var discussions1 = db.Discussions.Include("User").Include("User.Profile")
                     .Where(disc => disc.TopicId == id);
+
+            var search = "";
+            if (Convert.ToString(HttpContext.Request.Query["search"]) != null)
+            {
+                search = Convert.ToString(HttpContext.Request.Query["search"]).Trim();
+                List <int> discussionIds = db.Discussions.Where(
+                                            discussion => discussion.Title.Contains(search)
+                                            || discussion.Content.Contains(search)).Select(discussion => discussion.DiscussionId).ToList();
+                List<int> discussionIdsOfComments = db.Comments.Where(
+                                                        comment => comment.Content.Contains(search)).Select(comment => comment.CommentId).ToList();
+                List<int> mergedDiscussionIds = discussionIds.Union(discussionIdsOfComments).ToList();
+                discussions1 = db.Discussions.Where(discussion => mergedDiscussionIds.Contains(discussion.DiscussionId)).Include("User").Include("User.Profile");
+            }
+
+            ViewBag.SearchString = search;
+
             foreach (var disc in discussions1.AsEnumerable())
                 disc.CommentsCount = db.Comments.Where(d => d.DiscussionId == disc.DiscussionId).Count();
 
