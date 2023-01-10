@@ -66,7 +66,7 @@ namespace OpenDiscussion.Controllers
             else if (HttpContext.Session.GetString(SessionKeySort) == "Date")
                 discussions = discussions1.AsEnumerable().OrderByDescending(d => d.Date);
             else
-                discussions = discussions1.AsEnumerable();
+                discussions = discussions1.AsEnumerable().OrderByDescending(d => d.Date);
 
             var topicCount = db.Topics.Where(top => top.TopicId == id).Count();
             int _perpage = 5, offset = 0;

@@ -1,22 +1,38 @@
 ﻿
-<div class="card">
-    <div class="card-body">
-        <h3>@Model.Title</h3>
-        <div class="w-75 p-3" style="background-color: #eee;">@Model.Content</div>
-        <h5>@Model.Date</h5>
-        <div style="float: right"><small style="text-align: bottom">@Model.User.UserName</small><img src="@Model.User.Profile.Avatar" style="width: 50px; height: 50px"</img></div>
-    </div>
-    @if (ViewBag.ShowButtons == true || ViewBag.CurrentUser == Model.UserId)
-    {
-        <div class="d-flex flex-row grap-3">
-            <a class="btn btn-success" href="/Discussions/Edit/@Model.DiscussionId">Editare discutie</a>
-            <form method="post" action="/Discussions/Delete/@Model.DiscussionId">
-
-                <button class="btn btn-outline-danger p-2" type="submit"><i class="bi bi-trash">Sterge discutie</i></button>
-            </form>
-            <a class="btn btn-primary" href="/Discussions/Move/@Model.DiscussionId">Muta discutia</a>
+<div class="card" style="border-top: 1px solid; border-bottom: 0px; border-left: 0px; border-right: 0px; border-color: #00b2ff;">
+    <div class="card-body" style="display: grid; grid-template-columns: 1fr 3fr; ">
+        <div>
+            <h5 style="margin:auto">@Model.Date</h5>
         </div>
-    }
+
+
+        <div>
+            <h3 style="color: black"><strong>@Model.Title</strong></h3>
+            <div class="w-75" style="padding: 20px 0px 20px 0px">@Model.Content</div>
+
+            <div style="display: grid; grid-template-columns: 1fr 1fr;">
+                <div><small style="text-align: bottom">@Model.User.UserName</small></div>
+            
+                @if (ViewBag.ShowButtons == true || ViewBag.CurrentUser == Model.UserId)
+                {
+                    <div class="grap-3" style="color: #00b2ff; display:inline-flex; margin-left: auto; margin-right: 0">
+                        <a class="btn" style="color: inherit"href="/Discussions/Edit/@Model.DiscussionId"><i class="bi bi-pencil"></i> Editeaza</a>
+                        <form method="post" action="/Discussions/Delete/@Model.DiscussionId">
+
+                            <button style="color: inherit" class="btn" type="submit"><i class="bi bi-trash"> Sterge</i></button>
+                        </form>
+                        @if (ViewBag.ShowButtons == true)
+                        {
+                            <a style="color: inherit" class="btn" href="/Discussions/Move/@Model.DiscussionId"><i class="bi bi-arrows-move"></i> Muta</a>
+                        }
+                    </div>
+                }
+            </div>
+        </div>
+
+
+    </div>
+    
     <br/>
     
 </div>
