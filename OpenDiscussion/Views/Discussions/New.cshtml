@@ -4,7 +4,7 @@
 
 <br />
 <div>
-    <a class="btn btn-success" href="/Discussions/Index/@Model.TopicId">Inapoi</a>
+    <a class="id-buton-outline btn" href="/Discussions/Index/@Model.TopicId">Inapoi</a>
 </div>
 <br />
 <br />
@@ -23,7 +23,8 @@
             <br /> <br />
             @Html.ValidationMessage("Content", null, new {@class="text-danger"})
             @Html.TextArea("Content", null, new {@class="form-control"})
-            <button class="btn btn-success" type="submit">Adauga discutie</button>
+            <br/>
+            <button class="id-buton-outline btn" type="submit">Adauga discutie</button>
         </form>        
     </div>
 </div>

@@ -1,9 +1,10 @@
 ﻿@*
     For more information on enabling MVC for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
 *@
+<br/>
 @if(ViewBag.ShowButtons == true)
 {
-    <a class="btn btn-success" href="/Categories/New">Adauga o noua categorie</a>
+    <a class="id-buton-outline btn" href="/Categories/New">Adauga o noua categorie</a>
     <br />
 }
 
@@ -15,17 +16,17 @@
     <div class="card" >
 
         <div class="card-body">
-            <h3>@category.Name</h3>
-            <div class="w-75 p-3" style="background-color: #eee;">@category.Description</div>
+                <h3 style="color:black"><strong>@category.Name</strong></h3>
+            <div class="w-75 p-3">@category.Description</div>
         </div>
         @if(ViewBag.ShowButtons == true) 
         {
-            <div class="d-flex flex-row gap-3">
-                <a class="btn btn-success" href="/Categories/Edit/@category.CategoryId">Editare categorie</a>
+            <div class="d-flex flex-row gap-3 div-butoane">
+                    <a class="id-buton btn" href="/Categories/Edit/@category.CategoryId"><i class="bi bi-pencil"></i> Editeaza</a>
 
                 <form method="post" action="/Categories/Delete/@category.CategoryId">
 
-                    <button class="btn btn-outline-danger p-2" type="submit"><i class="bi bi-trash">Sterge</i></button>
+                        <button class="id-buton btn" type="submit"><i class="bi bi-trash"> Sterge</i></button>
 
                 </form>
             </div>

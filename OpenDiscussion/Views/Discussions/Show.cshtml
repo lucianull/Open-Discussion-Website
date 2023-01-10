@@ -7,7 +7,7 @@
 }
 <br />
 <div>
-    <a class="btn btn-success" href="/Discussions/Index/@Model.TopicId">Inapoi</a>
+    <a class="id-buton-outline btn" href="/Discussions/Index/@Model.TopicId">Inapoi</a>
 </div>
 <br />
 <br />
@@ -26,9 +26,9 @@
 @foreach (var comment in ViewBag.discussionPaginated)
 {
     <div class="container">
-        <div class="row">
+        <div class="row" >
             <div class="col-md-2"></div>
-            <div class="col-md-8">
+            <div class="col-md-8" style="border-top: 1px solid #E2E2E2 ">
                 <div>
                     <p>@comment.Content</p>
                     <small>@comment.Date</small>
@@ -41,10 +41,10 @@
                 @if (ViewBag.ShowButtons == true || comment.UserId == ViewBag.CurrentUser)
                 {
                     <div class="d-flex flex-row">
-                        <a class="btn btn-success p-2" href="/Comments/Edit/@comment.CommentId">Editare comentariu</a>
+                        <a class="id-buton-outline btn" href="/Comments/Edit/@comment.CommentId"><i class="bi bi-pencil"></i> Editeaza</a>
                         <form method="post" action="/Comments/Delete/@comment.CommentId">
 
-                            <button class="btn btn-outline-danger p-2" type="submit"><i class="bi bi-trash">Sterge</i></button>
+                            <button style="margin-left: 20px" class="id-buton-outline btn" type="submit"><i class="bi bi-trash"> Sterge</i></button>
 
                         </form>
                     </div>
@@ -97,7 +97,7 @@
                         @Html.ValidationMessage("Content", null, new {@class="text-danger"})
                         <textarea class="form-control" name="Content"></textarea>
                         <br /><br />
-                        <button class="btn btn-success" type="submit">Adauga comentariu</button>
+                        <button class="id-buton-outline btn" type="submit">Adauga comentariu</button>
                     </div>
                 </form>
             </div>

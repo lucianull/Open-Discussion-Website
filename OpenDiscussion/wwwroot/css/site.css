@@ -16,6 +16,7 @@ html {
 body {
     margin-bottom: 60px;
     font-family: sans-serif;
+    background-color: #F5F5F5!important;
 }
 
 .img-fluid {
@@ -38,4 +39,17 @@ body {
     background-color: #00b2ff!important;
     color: white!important;
     transition: 0.5s;
+}
+
+.id-buton-outline {
+    color: #00b2ff!important;
+    border: 1px solid #00b2ff!important;
+    background-color: white;
+}
+
+.id-buton-outline:hover {
+     background-color: #00b2ff !important;
+     color: white !important;
+     transition: 0.5s;
+
 }

@@ -2,12 +2,13 @@
 
 <br />
 <div>
-    <a class="btn btn-success" href="/Discussions/Index/@Model.TopicId">Inapoi</a>
+    <a class="id-buton-outline btn" href="/Discussions/Index/@Model.TopicId">Inapoi</a>
 </div>
 <br />
 <br />
 
-<h2 class="text-center mt-5">Editare discutie</h2>
+<h2 class="mt-5">Editare discutie</h2>
+<br/>
 <form method="post" action="/Discussions/Edit/@Model.DiscussionId">
     @Html.Label("Title", "Titlu")
     <br />
@@ -19,5 +20,6 @@
     @Html.ValidationMessage("Content", null, new {@class="text-danger"})
     @Html.Editor("Content")
     <br />
-    <button class="btn btn-success" type="submit">Modifica discutia</button>
+    <br/>
+    <button class="id-buton-outline btn" type="submit">Modifica discutia</button>
 </form>

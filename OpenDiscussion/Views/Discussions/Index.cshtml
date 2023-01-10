@@ -1,34 +1,38 @@
 ﻿@model OpenDiscussion.Models.Discussion
+<br/>
 
-<a class="btn btn-success" href="/Discussions/New/@ViewBag.DiscussionTopicId">Adauga o noua discutie</a>
-<br />
-<br />
+<div class="d-inline-flex"> 
+    <a class="id-buton btn" style="border: 1px solid; border-color: #00b2ff" href="/Topics/Index/@ViewBag.DiscussionCategoryId">Inapoi</a>
 
-<br />
-<div>
-    <a class="btn btn-success" href="/Topics/Index/@ViewBag.DiscussionCategoryId">Inapoi</a>
+    <a class="id-buton btn" style="margin-left: 20px; border: 1px solid; border-color: #00b2ff" href="/Discussions/New/@ViewBag.DiscussionTopicId">Adauga o noua discutie</a>
 </div>
+
 <br />
 <br />
 
 <form method="GET">
     <div class="input-group mb-3">
         <input type="text" class="form-control" placeholder="Cauta discutii sau cuvinte cheie" name="search" value="@ViewBag.SearchString" />
-        <button class="btn btn-outline-success" type="submit">Search</button>
+        <button class="id-buton btn" style="border: 1px solid #00b2ff" type="submit">Search</button>
     </div>
 </form>
 
+<div style="float:right">
 <form method="post" id="SortedData" action="/Discussions/Sorted/@ViewBag.DiscussionTopicId">
-    <input type="radio" name="Sort" value="Date"/> Data
-    <input type="radio" name="Sort" value="Comments"/>Nr.Comentarii
-    <input type="submit" value="Aplica filtrul" />
+    <input type="radio" name="Sort" value="Date"/> Data  
+    <input type="radio" name="Sort" value="Comments"/>   Nr.Comentarii
+        <button style="border: 1px solid #00b2ff" class="id-buton btn" type="submit" />Ordoneaza dupa</button>
 </form>
-
+</div>
+<br/>
+<br/>
 @if (TempData.ContainsKey("Message"))
 {
     <p>@TempData["Message"]</p>
     <br/>
 }
+
+<p>@ViewBag.NotFound</p>
 
 @foreach(OpenDiscussion.Models.Discussion discussion in ViewBag.Discussions) {
     <a href="/Discussions/Show/@discussion.DiscussionId" class="text-decoration-none text-muted">
