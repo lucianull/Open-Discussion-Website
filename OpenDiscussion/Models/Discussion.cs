@@ -24,6 +24,6 @@ namespace OpenDiscussion.Models
         [NotMapped]
         public int CommentsCount { get; set; }
         [NotMapped]
-        public IEnumerable<SelectListItem> AllTopics { get; set; }
+        public IEnumerable<SelectListItem>? AllTopics { get; set; }
     }
 }

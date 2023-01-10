@@ -1,4 +1,4 @@
-﻿@model OpenDiscussion.Models.Discussion
+﻿@model OpenDiscussion.Models.Discussion 
 
 <form method="post" action="/Discussions/Move/@Model.DiscussionId">
 @Html.HiddenFor(d => d.DiscussionId, new {Value = "-1" });

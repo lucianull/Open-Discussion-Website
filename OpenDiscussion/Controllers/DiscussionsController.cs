@@ -119,7 +119,7 @@ namespace OpenDiscussion.Controllers
         }
         [Authorize(Roles = "User,Moderator,Admin")]
         [HttpPost]
-        public IActionResult New(int id, Discussion discussion)
+        public IActionResult New(int id, [FromForm] Discussion discussion)
         {
             string userId = _userManager.GetUserId(User);
             discussion.UserId = userId;
@@ -137,6 +137,11 @@ namespace OpenDiscussion.Controllers
             }
             else
             {
+                Console.WriteLine("Aici e: \n");
+                Console.WriteLine(discussion.DiscussionId);
+                Console.WriteLine(discussion.Content);
+                Console.WriteLine(discussion.Title);
+                Console.WriteLine(discussion.TopicId);
                 return View(discussion);
             }
         }
