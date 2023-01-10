@@ -7,6 +7,7 @@ using OpenDiscussion.Data;
 using OpenDiscussion.Models;
 using System.Data;
 using System.Drawing.Printing;
+using System.Linq;
 
 namespace OpenDiscussion.Controllers
 {
@@ -43,11 +44,12 @@ namespace OpenDiscussion.Controllers
             if (Convert.ToString(HttpContext.Request.Query["search"]) != null)
             {
                 search = Convert.ToString(HttpContext.Request.Query["search"]).Trim();
-                List <int> discussionIds = db.Discussions.Where(
+                List <int> initialIds = discussions1.Select(discussion => discussion.DiscussionId).ToList();
+                List <int> discussionIds = discussions1.Where(
                                             discussion => discussion.Title.Contains(search)
                                             || discussion.Content.Contains(search)).Select(discussion => discussion.DiscussionId).ToList();
                 List<int> discussionIdsOfComments = db.Comments.Where(
-                                                        comment => comment.Content.Contains(search)).Select(comment => comment.CommentId).ToList();
+                                                        comment => comment.Content.Contains(search) && initialIds.Contains((int)comment.DiscussionId)).Select(comment => comment.CommentId).ToList();
                 List<int> mergedDiscussionIds = discussionIds.Union(discussionIdsOfComments).ToList();
                 discussions1 = db.Discussions.Where(discussion => mergedDiscussionIds.Contains(discussion.DiscussionId)).Include("User").Include("User.Profile");
             }
@@ -67,8 +69,8 @@ namespace OpenDiscussion.Controllers
                 discussions = discussions1.AsEnumerable();
 
             var topicCount = db.Topics.Where(top => top.TopicId == id).Count();
-            int _perpage = 5, offset =0;
-            int countItems = db.Discussions.Where(disc => disc.TopicId == id).Count();
+            int _perpage = 5, offset = 0;
+            int countItems = discussions.Count();
 
             int currentPage = Convert.ToInt32(HttpContext.Request.Query["page"]);
             int lastpage = countItems / _perpage + Convert.ToInt32(countItems % _perpage != 0);
