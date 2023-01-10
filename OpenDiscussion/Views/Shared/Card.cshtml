@@ -15,15 +15,15 @@
             
                 @if (ViewBag.ShowButtons == true || ViewBag.CurrentUser == Model.UserId)
                 {
-                    <div class="grap-3" style="color: #00b2ff; display:inline-flex; margin-left: auto; margin-right: 0">
-                        <a class="btn" style="color: inherit"href="/Discussions/Edit/@Model.DiscussionId"><i class="bi bi-pencil"></i> Editeaza</a>
+                    <div class="div-butoane grap-3">
+                        <a class="id-buton btn" href="/Discussions/Edit/@Model.DiscussionId"><i class="bi bi-pencil"></i> Editeaza</a>
                         <form method="post" action="/Discussions/Delete/@Model.DiscussionId">
 
-                            <button style="color: inherit" class="btn" type="submit"><i class="bi bi-trash"> Sterge</i></button>
+                            <button class="id-buton btn" type="submit"><i class="bi bi-trash"> Sterge</i></button>
                         </form>
                         @if (ViewBag.ShowButtons == true)
                         {
-                            <a style="color: inherit" class="btn" href="/Discussions/Move/@Model.DiscussionId"><i class="bi bi-arrows-move"></i> Muta</a>
+                            <a class="id-buton btn" href="/Discussions/Move/@Model.DiscussionId"><i class="bi bi-arrows-move"></i> Muta</a>
                         }
                     </div>
                 }

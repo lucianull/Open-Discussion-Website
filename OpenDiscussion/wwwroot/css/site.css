@@ -24,3 +24,18 @@ body {
     max-width: 100%; !important
     max-height: 100%; !important
 }
+
+.div-butoane {
+    display: inline-flex;
+    margin-left: auto;
+    margin-right: 0;
+}
+
+.id-buton {
+    color: #00b2ff;
+}
+.id-buton:hover {
+    background-color: #00b2ff!important;
+    color: white!important;
+    transition: 0.5s;
+}
