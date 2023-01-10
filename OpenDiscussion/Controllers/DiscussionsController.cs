@@ -71,10 +71,13 @@ namespace OpenDiscussion.Controllers
             var topicCount = db.Topics.Where(top => top.TopicId == id).Count();
             int _perpage = 5, offset = 0;
             int countItems = discussions.Count();
-            if (countItems == 0)
-                ViewBag.NotFound = "Nu au fost gasite rezultate pentru cautarea dumneavoastra.";
-            else
-                ViewBag.NotFound = "";
+            if (search != "")
+            {
+                if (countItems == 0)
+                    ViewBag.NotFound = "Nu au fost gasite rezultate pentru cautarea dumneavoastra.";
+                else
+                    ViewBag.NotFound = "";
+            }
             int currentPage = Convert.ToInt32(HttpContext.Request.Query["page"]);
             int lastpage = countItems / _perpage + Convert.ToInt32(countItems % _perpage != 0);
             ViewBag.lastpage = lastpage;

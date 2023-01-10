@@ -2,9 +2,9 @@
 <br/>
 
 <div class="d-inline-flex"> 
-    <a class="id-buton btn" style="border: 1px solid; border-color: #00b2ff" href="/Topics/Index/@ViewBag.DiscussionCategoryId">Inapoi</a>
+    <a class="id-buton-outline btn" href="/Topics/Index/@ViewBag.DiscussionCategoryId">Inapoi</a>
 
-    <a class="id-buton btn" style="margin-left: 20px; border: 1px solid; border-color: #00b2ff" href="/Discussions/New/@ViewBag.DiscussionTopicId">Adauga o noua discutie</a>
+    <a class="id-buton-outline btn" style="margin-left: 20px;" href="/Discussions/New/@ViewBag.DiscussionTopicId">Adauga o noua discutie</a>
 </div>
 
 <br />
@@ -13,7 +13,7 @@
 <form method="GET">
     <div class="input-group mb-3">
         <input type="text" class="form-control" placeholder="Cauta discutii sau cuvinte cheie" name="search" value="@ViewBag.SearchString" />
-        <button class="id-buton btn" style="border: 1px solid #00b2ff" type="submit">Search</button>
+        <button class="id-buton-outline btn" type="submit">Search</button>
     </div>
 </form>
 
@@ -21,7 +21,7 @@
 <form method="post" id="SortedData" action="/Discussions/Sorted/@ViewBag.DiscussionTopicId">
     <input type="radio" name="Sort" value="Date"/> Data  
     <input type="radio" name="Sort" value="Comments"/>   Nr.Comentarii
-        <button style="border: 1px solid #00b2ff" class="id-buton btn" type="submit" />Ordoneaza dupa</button>
+        <button class="id-buton-outline btn" type="submit" />Ordoneaza dupa</button>
 </form>
 </div>
 <br/>
