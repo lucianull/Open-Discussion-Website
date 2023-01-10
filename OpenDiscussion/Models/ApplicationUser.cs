@@ -1,4 +1,5 @@
 ﻿using Microsoft.AspNetCore.Identity;
+using Microsoft.AspNetCore.Mvc.Rendering;
 using System.ComponentModel.DataAnnotations.Schema;
 
 namespace OpenDiscussion.Models
@@ -14,5 +15,7 @@ namespace OpenDiscussion.Models
         public virtual Profile? Profile { get; set; }   
         public int? CommentCount { get; set; }
         public int? DiscussionCount { get; set; }
+        [NotMapped]
+        public IEnumerable <SelectListItem>? AllRoles { get; set; }
     }
 }
