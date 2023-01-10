@@ -99,9 +99,21 @@ namespace OpenDiscussion.Controllers
         [HttpPost]
         public IActionResult Delete(int id)
         {
+            Category category = db.Categories.Include("Topics").Where(cat => cat.CategoryId == id).First();
             if (User.IsInRole("Admin"))
             {
-                Category category = db.Categories.Include("Topics").Where(cat => cat.CategoryId == id).First();
+                int categoryId = category.CategoryId;
+                var topics = db.Topics.Where(topic => topic.CategoryId== categoryId);
+                var topicIds = topics.Select(topic => topic.TopicId).ToList();
+                var discussions = db.Discussions.Where(discussion => topicIds.Contains((int)discussion.TopicId));
+                var discussionIds = discussions.Select(discussion => discussion.DiscussionId).ToList();
+                var comments = db.Comments.Where(comment => discussionIds.Contains((int)comment.DiscussionId));
+                foreach (var comm in comments)
+                    db.Comments.Remove(comm);
+                foreach (var disc in discussions)
+                    db.Discussions.Remove(disc);
+                foreach(var topic in topics)
+                    db.Topics.Remove(topic);
                 db.Categories.Remove(category);
                 db.SaveChanges();
             }

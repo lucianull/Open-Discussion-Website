@@ -73,17 +73,13 @@ namespace OpenDiscussion.Controllers
         [HttpPost]
         public IActionResult Delete(string id)
         {
-            var user = db.Users
-                         .Include("Discussions")
-                         .Include("Comments")
-                         .Where(user => user.Id == id)
-                         .First();
-            if (user.Discussions.Count > 0)
-                foreach (var discussion in user.Discussions)
-                    db.Discussions.Remove(discussion);
-            if (user.Comments.Count > 0)
-                foreach (var comment in user.Comments)
-                    db.Comments.Remove(comment);
+            var user = db.Users.Where(u => u.Id == id).First();
+            var discussions = db.Discussions.Where(disc => disc.UserId == id);
+            var comments = db.Comments.Where(comm => comm.UserId == id);
+            foreach (var comm in comments)
+                db.Comments.Remove(comm);
+            foreach (var disc in discussions)
+                db.Discussions.Remove(disc);
             db.ApplicationUsers.Remove(user);
             db.SaveChanges();
             return RedirectToAction("Index");

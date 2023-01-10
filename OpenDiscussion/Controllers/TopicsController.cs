@@ -103,6 +103,16 @@ namespace OpenDiscussion.Controllers
             Topic topic = db.Topics.Include("Discussions").Where(top => top.TopicId == id).First();
             if (User.IsInRole("Moderator") || User.IsInRole("Admin"))
             {
+                int topicId = topic.TopicId;
+                var discussions = db.Discussions.Where(discussion => discussion.TopicId == topicId);
+                var discussionIds = discussions.Select(discussion => discussion.DiscussionId).ToList();
+                var comments = db.Comments.Where(comment => discussionIds.Contains((int)comment.DiscussionId));
+                foreach(var comm in comments)
+                    db.Comments.Remove(comm);
+                foreach (var disc in discussions)
+                    db.Discussions.Remove(disc);
+                //db.Discussions.Remove(discussions.AsEnumerable());
+                //db.Comments.Remove(comments);
                 db.Topics.Remove(topic);
                 db.SaveChanges();
             }

@@ -179,6 +179,10 @@ namespace OpenDiscussion.Controllers
             {
                 ApplicationUser user = db.Users.Find(userId);
                 user.DiscussionCount -= 1;
+                var comments = db.Comments.Where(comm => comm.DiscussionId == discussion.DiscussionId);
+                user.CommentCount -= comments.Count();
+                foreach (var comm in comments)
+                    db.Comments.Remove(comm);
                 db.Discussions.Remove(discussion);
                 db.SaveChanges();
                 return RedirectToAction("Index", new { id = discussion.TopicId });
